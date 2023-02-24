@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+
+    <title>Sign Up</title>
+</head>
+<body>
+<div class="container text-bg-dark py-4">
+    <!-- Nav -->
+    <header class="p-3 text-bg-dark">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center">
+                <a th:href="@{index}" class="justify-content-center justify-content-md-start col-12 col-md-6 col-lg-7 col-xl-8 fs-4 d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                    <p style="font-size: 1.8rem;" id="logo">MyPortfolio</p>
+                </a>
+
+                <nav class="col-12 col-md-6 col-lg-5 col-xl-4 navbar navbar-expand-md navbar-dark">
+                    <div class="container justify-content-center">
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#n_bar" aria-controls="navbarNavAltMarkup" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse justify-content-end" id="n_bar">
+                            <ul class="navbar-nav justify-content-center align-items-center">
+                                <li class="nav-item active"><a class="nav-link" th:href="@{dashboard}">Dashboard</a></li>
+                                <li class="nav-item active"><a class="nav-link" href="#">Feedback</a></li>
+                                <li class="nav-item active"><a class="nav-link" th:href="@{login}">Login</a></li>
+                                <li class="nav-item active"><a class="nav-link" th:href="@{signup}">SignUp</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main -->
+
+    <div class="row align-items-md-center mb-5 g-3">
+        <!-- Left Side  -->
+        <div class="col-12 col-md-5">
+            <div class="image-hero-three"></div>
+        </div>
+
+        <!-- Right Side  -->
+        <div class="col-12 col-md-7">
+            <!-- Form, this form allows to add new users -->
+            <form method="post" th:action="@{signup}" th:object="${user}" class="row g-3 needs-validation signup-validation">
+                <div class="col-md-6">
+                    <label for="fName" class="form-label">First name</label>
+                    <input type="text" class="form-control" id="fName" th:field="*{firstName}" required>
+                    <!--
+                    <div class="invalid-feedback">
+                      Please enter a name between 2 and 30 characters long
+                    </div>
+                    -->
+                </div>
+                <div class="col-md-6">
+                    <label for="lName" class="form-label">Last name</label>
+                    <input type="text" class="form-control" id="lName" th:field="*{lastName}" required>
+                    <!--
+                    <div class="invalid-feedback">
+                      Please enter a name between 2 and 30 characters long
+                    </div>
+                    -->
+                </div>
+                <div class="col-md-8">
+                    <label for="newEmail" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="newEmail" th:field="*{email}" required>
+                    <!--
+
+                    -->
+                </div>
+                <!--
+
+                -->
+                <div class="col-md-6">
+                    <label for="streetAddress" class="form-label">Street Address</label>
+                    <input type="text" class="form-control" id="streetAddress" name="street" required>
+                    <!--
+                    <div class="invalid-feedback">
+                      A valid zip number must contain 5 digits
+                    </div>
+                    -->
+                </div>
+
+                <div class="col-md-3">
+                    <label for="stateAddress" class="form-label">State</label>
+                    <input type="text" class="form-control" id="stateAddress" name="state" required>
+                    <!--
+                    <div class="invalid-feedback">
+                      A valid zip number must contain 5 digits
+                    </div>
+                    -->
+                </div>
+
+                <div class="col-md-3">
+                    <label for="zipcode" class="form-label">Zipcode</label>
+                    <input type="text" class="form-control" id="zipcode" name="zip" required>
+                    <!--
+                    <div class="invalid-feedback">
+                      A valid zip number must contain 5 digits
+                    </div>
+                    -->
+                </div>
+
+                <div class="col-md-6">
+                    <label for="createPassword" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="createPassword" min="8" pattern="(?=^.{8,}$)(?=.*\d)(?=.*[!@#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" th:field="*{password}" required>
+                    <!--
+                    <div class="invalid-feedback pass-feedback">Your password must be at least 8 characters including a lowercase letter, an uppercase letter, a special character and a number</div>
+                    -->
+                </div>
+
+                <div class="col-md-6">
+                    <label for="confirmPassword" class="form-label ">Confirm Password</label>
+                    <input type="password" class="form-control" id="confirmPassword" min="8" pattern="(?=^.{8,}$)(?=.*\d)(?=.*[!@#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required>
+                    <div class="invalid-feedback">Password not a match</div>
+                </div>
+
+                <div class="col-12">
+                    <a th:href="@{login}"><button class="btn btn-primary" id="signupBttn" type="submit">Submit form</button></a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- Bottom Sections -->
+    <div class="row align-items-md-stretch">
+        <div class="col-md-6">
+            <div class="h-100 p-5 text-bg-dark rounded-3">
+                <h2>Change the background</h2>
+                <p>Swap the background-color utility and add a `.text-*` color utility to mix up the jumbotron look. Then, mix and match with additional component themes and more.</p>
+                <button class="btn btn-outline-light" type="button">Example button</button>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="h-100 p-5 bg-light border rounded-3 text-bg-light">
+                <h2>Add borders</h2>
+                <p>Or, keep it light and add a border for some added definition to the boundaries of your content. Be sure to look under the hood at the source HTML here as we've adjusted the alignment and sizing of both column's content for equal-height.</p>
+                <button class="btn btn-outline-secondary" type="button">Example button</button>
+            </div>
+        </div>
+    </div>
+    <footer class="row justify-content-center">
+        <div class="p-4 col-auto">
+            <p>For more information and projects, click here</p>
+        </div>
+    </footer>
+</div>
+
+<!-- Option 1: Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+<script src="javascript/index.js"></script>
+</body>
+</html>
