@@ -13,6 +13,7 @@ import org.perscholas.investmentapp.models.Address;
 import org.perscholas.investmentapp.models.Stock;
 import org.perscholas.investmentapp.models.User;
 import org.perscholas.investmentapp.models.UserPosition;
+import org.perscholas.investmentapp.services.UserAndPositionServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -29,15 +30,16 @@ public class MyCommandLineRunner implements CommandLineRunner {
     StockRepoI stockRepoI;
     UserPositionRepoI userPositionRepoI;
     AddressRepoI addressRepoI;
+    UserAndPositionServices userAndPositionServices;
 
 
     @Autowired
-    public MyCommandLineRunner(UserRepoI userRepoI, StockRepoI stockRepoI, UserPositionRepoI userPositionRepoI, AddressRepoI addressRepoI) {
-
+    public MyCommandLineRunner(UserRepoI userRepoI, StockRepoI stockRepoI, UserPositionRepoI userPositionRepoI, AddressRepoI addressRepoI, UserAndPositionServices userAndPositionServices) {
         this.userRepoI = userRepoI;
         this.stockRepoI = stockRepoI;
         this.userPositionRepoI = userPositionRepoI;
         this.addressRepoI = addressRepoI;
+        this.userAndPositionServices = userAndPositionServices;
     }
 
     @PostConstruct
@@ -139,29 +141,22 @@ public class MyCommandLineRunner implements CommandLineRunner {
         UserPosition us2 = new UserPosition(10.0, user1, investment5);
         UserPosition us3 = new UserPosition(15.0, user1, investment6);
         UserPosition us4 = new UserPosition(85.0, user1, investment7);
-        userPositionRepoI.saveAndFlush(us);
-        userPositionRepoI.saveAndFlush(us1);
-        userPositionRepoI.saveAndFlush(us2);
-        userPositionRepoI.saveAndFlush(us3);
-        userPositionRepoI.saveAndFlush(us4);
-
         UserPosition us6 = new UserPosition(15.0, user2, investment3);
         UserPosition us7 = new UserPosition(5.0, user3, investment4);
         UserPosition us8 = new UserPosition(55.0, user2, investment5);
         UserPosition us9 = new UserPosition(25.0, user2, investment6);
         UserPosition us0 = new UserPosition(3.0, user3, investment7);
 
-        user1.getUserStocks().add(us);
-        user1.getUserStocks().add(us1);
-        user1.getUserStocks().add(us2);
-        user1.getUserStocks().add(us3);
-        user2.getUserStocks().add(us6);
-        user2.getUserStocks().add(us7);
-        user2.getUserStocks().add(us8);
-        user2.getUserStocks().add(us9);
-        user2.getUserStocks().add(us0);
-        userRepoI.saveAndFlush(user1);
-        userRepoI.saveAndFlush(user2);
-        userRepoI.saveAndFlush(user3);
+        userAndPositionServices.addingNewPosition(us);
+        userAndPositionServices.addingNewPosition(us0);
+        userAndPositionServices.addingNewPosition(us1);
+        userAndPositionServices.addingNewPosition(us2);
+        userAndPositionServices.addingNewPosition(us3);
+        userAndPositionServices.addingNewPosition(us4);
+        userAndPositionServices.addingNewPosition(us6);
+        userAndPositionServices.addingNewPosition(us7);
+        userAndPositionServices.addingNewPosition(us8);
+        userAndPositionServices.addingNewPosition(us9);
+
     }
 }

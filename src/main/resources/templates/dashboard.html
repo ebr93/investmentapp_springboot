@@ -45,12 +45,23 @@
     <div class="col-12 col-md-6 vh-50 p-3" id="dash-right">
       <button class="btn btn-outline-light" id="fetch-stocks">Stocks</button>
       <ul class="row" id="stocks-container">
-        <li class="col-11 rounded 3 m-2 p-2 d-flex justify-content-between">
-          <p>Name</p>
-          <p>Price</p>
-          <p>%</p>
-        </li>
       </ul>
+      <table class="table text-bg-dark">
+        <thead>
+          <tr>
+            <th scope="col" class="h5">Ticker</th>
+            <th scope="col" class="h5">Company</th>
+            <th scope="col" class="h5">Price</th>
+            <th scope="col" class="h5"></th>
+          </tr>
+        </thead>
+        <tr th:each="stcks: ${allStocks}">
+          <th scope="row" th:text="${stcks.ticker}"></th>
+          <td th:text="${stcks.stockName}">
+          <td th:text="${stcks.price}">
+          <td><button class="stock-add-btn btn-outline-dark btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" th:id="${stcks.ticker}">+</button></td>
+        </tr>
+      </table>
     </div>
     <div class="col-12 col-md-6 p-3" id="dash-left">
       <div>
@@ -83,6 +94,34 @@
       <p>For more information and projects, click here</p>
     </div>
   </footer>
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content text-bg-light">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form class="row g-3 needs-validation signup-validation">
+            <div class="col-md-6">
+              <label for="stock-ticker" class="form-label">Ticker</label>
+              <p id="traded-stock"></p>
+              
+            </div>
+            <div class="col-md-6">
+              <label for="sharesAmount" class="form-label">Shares Amount</label>
+              <input type="text" class="form-control" id="sharesAmount" pattern="^\d{1,8}|\d{0,8}\.\d{1,2}$" required>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- Option 1: Bootstrap Bundle with Popper -->

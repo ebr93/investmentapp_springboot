@@ -95,6 +95,8 @@ const dashListeners = (() => {
     const divLeft = document.querySelector('#dash-left');
     const divRight = document.querySelector('#dash-right');
     const divTop = document.querySelector('#dash-top');
+    const stockButtons = document.querySelectorAll('.stock-add-btn');
+    const tradedStock = document.querySelector('#traded-stock');
 
     const addBttn = document.querySelector('#addBttn');
     const stocksBttn = document.querySelector('#fetch-stocks');
@@ -124,10 +126,10 @@ const dashListeners = (() => {
       }
     });
 
-    // logs off user when LoggOff tab is clicked
-    signupTab.addEventListener('click', () => {
-      currentUser.userLogOff();
-    });
+    // // logs off user when LoggOff tab is clicked
+    // signupTab.addEventListener('click', () => {
+    //   currentUser.userLogOff();
+    // });
 
     addBttn.addEventListener('click', () => {
       addRandomNumber();
@@ -140,14 +142,22 @@ const dashListeners = (() => {
       console.log(`Printing Array:\n${numberArray}`);
     });
 
-    stocksBttn.addEventListener('click', () => {
-      orderAPI.getQuote().then(respone => {
-        console.log(`Printing Array + EventListener:\n${intList}`);
-        for (let i = 0; i < intList.length; i++) {
-          intList[i].printStockCard();
-        }
-      });
-    });
+    // stocksBttn.addEventListener('click', () => {
+    //   orderAPI.getQuote().then(respone => {
+    //     console.log(`Printing Array + EventListener:\n${intList}`);
+    //     for (let i = 0; i < intList.length; i++) {
+    //       intList[i].printStockCard();
+    //     }
+    //   });
+    // });
+
+    stockButtons.forEach(stockButton => 
+      stockButton.addEventListener('click', (e) => {
+        console.log('this clicked');
+        console.log(e.target.id);
+        tradedStock.innerText = e.target.id;
+      })
+    ) 
   }
 })()
 
