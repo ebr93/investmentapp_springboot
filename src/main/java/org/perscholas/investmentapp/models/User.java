@@ -48,6 +48,7 @@ public class User {
     @JoinTable(name = "user_join_position",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "user_stock_id", referencedColumnName = "id"))
+    @ToString.Exclude
     List<UserPosition> userStocks = new ArrayList<>();
 
     @Override
@@ -62,4 +63,6 @@ public class User {
     public int hashCode() {
         return Objects.hash(firstName, lastName, email, password);
     }
+
+
 }

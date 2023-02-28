@@ -45,6 +45,7 @@ public class Stock {
     @JoinTable(name = "stock_join_position",
             joinColumns = @JoinColumn(name = "stock_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "user_stock_id", referencedColumnName = "id"))
+    @ToString.Exclude
     List<UserPosition> userStocks = new ArrayList<>();
 
     @Override

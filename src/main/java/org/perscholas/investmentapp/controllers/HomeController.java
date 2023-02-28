@@ -23,6 +23,7 @@ import java.util.Optional;
 
 @Controller
 @Slf4j
+@SessionAttributes(value = {"msg"})
 public class HomeController {
     private final AddressRepoI addressRepoI;
     UserRepoI userRepoI;
@@ -43,15 +44,21 @@ public class HomeController {
     }
 
     @GetMapping("/index")
-    public String homePage(){
+    public String homePage(Model model){
         log.info("I am in the index controller method");
+        log.warn("first call " + String.valueOf(model.getAttribute("msg")));
+        model.addAttribute("msg", "Hello World IndexPage");
+        log.warn("second call " + String.valueOf(model.getAttribute("msg")));
 
         return "index";
     }
 
     @GetMapping("/dashboard")
-    public String dashPage(Model model, HttpServletRequest request) {
-        log.warn("I am in the dashboard controller method");
+    public String dashPage(@SessionAttribute("msg") String msg, Model model, HttpServletRequest request) {
+        //log.warn("I am in the dashboard controller method");
+        log.warn("third call " + msg);
+        model.addAttribute("msg", "Hello World Dashboard");
+        log.warn("fourth call " + msg);
         // MAKE SURE I MAKE A SERVICE METHOD FOR THIS
         List<StockDTO> allStocks = userAndPositionServices.allStocks();
 
@@ -105,5 +112,23 @@ public class HomeController {
         userRepoI.save(user);
 
         return "redirect:/login";
+    }
+
+    @GetMapping("/user/{id}")
+    public String getUserWithID(@PathVariable(name = "id") int id,
+                                Model model) {
+        log.warn(String.valueOf(id));
+        //log.warn(userPositionRepoI.findById(id).toString());
+        log.warn(userRepoI.findById(id).toString());
+        User user = userRepoI.findById(id).get();
+        model.addAttribute("userValue", user);
+
+        // MAKE SURE I MAKE A SERVICE METHOD FOR THIS
+        List<StockDTO> allStocks = userAndPositionServices.allStocks();
+
+        model.addAttribute("allStocks", allStocks);
+        allStocks.forEach((s) -> System.out.println(s));
+
+        return "userportfolio";
     }
 }

@@ -107,6 +107,7 @@ const dashListeners = (() => {
     const loginTab = document.querySelector('#dash-tab-login');
     const signupTab = document.querySelector('#dash-tab-signup');
 
+    /* Welcome Visitor || Welcome UserName
     window.addEventListener('load', () => {
       //console.log(`${currentUser.obj.value.fName} ${currentUser.obj.value.lName} logged in`);
       console.log(`${currentUser.getCurrentUser().fName} ${currentUser.getCurrentUser().lName} logged in`);
@@ -125,22 +126,23 @@ const dashListeners = (() => {
         signupTab.parentElement.href = 'dashboard.html';
       }
     });
+    */
 
     // // logs off user when LoggOff tab is clicked
     // signupTab.addEventListener('click', () => {
     //   currentUser.userLogOff();
     // });
 
-    addBttn.addEventListener('click', () => {
-      addRandomNumber();
+    // addBttn.addEventListener('click', () => {
+    //   addRandomNumber();
 
-      const lastNum = numberArray[numberArray.length - 1];
-      const newLi = document.createElement('li');
-      newLi.className = ('col-3');
-      newLi.innerText = `${lastNum}`;
-      numContainer.appendChild(newLi);
-      console.log(`Printing Array:\n${numberArray}`);
-    });
+    //   const lastNum = numberArray[numberArray.length - 1];
+    //   const newLi = document.createElement('li');
+    //   newLi.className = ('col-3');
+    //   newLi.innerText = `${lastNum}`;
+    //   numContainer.appendChild(newLi);
+    //   console.log(`Printing Array:\n${numberArray}`);
+    // });
 
     // stocksBttn.addEventListener('click', () => {
     //   orderAPI.getQuote().then(respone => {

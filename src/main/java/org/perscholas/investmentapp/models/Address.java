@@ -13,7 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Setter
 @Getter
-@ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Address {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,4 +23,9 @@ public class Address {
     String state;
     @NonNull
     int zipcode;
+
+    @Override
+    public String toString() {
+        return String.format("%s %s %s", street, state, zipcode);
+    }
 }

@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,7 +33,7 @@ public class UserAndPositionServices {
         this.stockRepoI = stockRepoI;
     }
 
-    @Transactional(rollbackOn = Exception.class)
+    //@Transactional(rollbackOn = Exception.class)
     public void addingNewPosition(UserPosition us) {
         userPositionRepoI.saveAndFlush(us);
 
@@ -51,6 +52,11 @@ public class UserAndPositionServices {
                 .stream()
                 .map((stock) -> new StockDTO(stock.getInvestmentName(), stock.getTicker(), stock.getPrice(), stock.getDescription()))
                 .collect(Collectors.toList());
+    }
+
+    //@Transactional(rollbackOn = UserPosition.class)
+    public List<UserPosition> allUserPositions(int userID) {
+        return userPositionRepoI.findByUser(userID);
     }
 
 }
