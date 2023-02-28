@@ -31,6 +31,7 @@ public class UserAndPositionServices {
         this.userRepoI = userRepoI;
         this.userPositionRepoI = userPositionRepoI;
         this.stockRepoI = stockRepoI;
+
     }
 
     //@Transactional(rollbackOn = Exception.class)

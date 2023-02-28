@@ -4,15 +4,9 @@ import jakarta.annotation.PostConstruct;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.perscholas.investmentapp.dao.AddressRepoI;
-import org.perscholas.investmentapp.dao.StockRepoI;
+import org.perscholas.investmentapp.dao.*;
 
-import org.perscholas.investmentapp.dao.UserPositionRepoI;
-import org.perscholas.investmentapp.dao.UserRepoI;
-import org.perscholas.investmentapp.models.Address;
-import org.perscholas.investmentapp.models.Stock;
-import org.perscholas.investmentapp.models.User;
-import org.perscholas.investmentapp.models.UserPosition;
+import org.perscholas.investmentapp.models.*;
 import org.perscholas.investmentapp.services.UserAndPositionServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -31,15 +25,17 @@ public class MyCommandLineRunner implements CommandLineRunner {
     UserPositionRepoI userPositionRepoI;
     AddressRepoI addressRepoI;
     UserAndPositionServices userAndPositionServices;
+    AuthGroupRepoI authGroupRepoI;
 
 
     @Autowired
-    public MyCommandLineRunner(UserRepoI userRepoI, StockRepoI stockRepoI, UserPositionRepoI userPositionRepoI, AddressRepoI addressRepoI, UserAndPositionServices userAndPositionServices) {
+    public MyCommandLineRunner(UserRepoI userRepoI, StockRepoI stockRepoI, UserPositionRepoI userPositionRepoI, AddressRepoI addressRepoI, UserAndPositionServices userAndPositionServices, AuthGroupRepoI authGroupRepoI) {
         this.userRepoI = userRepoI;
         this.stockRepoI = stockRepoI;
         this.userPositionRepoI = userPositionRepoI;
         this.addressRepoI = addressRepoI;
         this.userAndPositionServices = userAndPositionServices;
+        this.authGroupRepoI = authGroupRepoI;
     }
 
     @PostConstruct
@@ -54,7 +50,6 @@ public class MyCommandLineRunner implements CommandLineRunner {
         Address address3 = new Address("789 Oak St", "TX", 75001);
         Address address4 = new Address("987 Pine St", "FL", 33428);
         Address address5 = new Address("654 Cedar Ave", "IL", 60601);
-
         addressRepoI.saveAndFlush(address1);
         addressRepoI.saveAndFlush(address2);
         addressRepoI.saveAndFlush(address3);
@@ -63,11 +58,16 @@ public class MyCommandLineRunner implements CommandLineRunner {
 
 
 
-        User user1 = new User("Edward", "Barcenas",  "email@email.com", "pass123");
+        User user1 = new User("Edward", "Barcenas", "email@email.com", "Hello1234!");
         User user2 = new User("Jane", "Doe", "janedoe@example.com", "Hello1234!");
         User user3 = new User("Bob", "Smith", "bobsmith@example.com", "Hello1234!");
         User user4 = new User("Alice", "Johnson", "alicejohnson@example.com", "Hello1234!");
         User user5 = new User("Sam", "Brown", "sambrown@example.com", "Hello1234!");
+        user1.setPassword(user1.getPassword());
+        user2.setPassword(user2.getPassword());
+        user3.setPassword(user3.getPassword());
+        user4.setPassword(user4.getPassword());
+        user5.setPassword(user5.getPassword());
         userRepoI.saveAndFlush(user1);
         userRepoI.saveAndFlush(user2);
         userRepoI.saveAndFlush(user3);
@@ -83,6 +83,18 @@ public class MyCommandLineRunner implements CommandLineRunner {
         userRepoI.saveAndFlush(user3);
         userRepoI.saveAndFlush(user4);
         userRepoI.saveAndFlush(user5);
+
+        AuthGroup authGroup1 = new AuthGroup("janedoe@example.com", "ROLE_ADMIN");
+        AuthGroup authGroup2 = new AuthGroup("email@email.com", "ROLE_ADMIN");
+        AuthGroup authGroup3 = new AuthGroup("bobsmith@example.com", "ROLE_USER");
+        AuthGroup authGroup4 = new AuthGroup("alicejohnson@example.com", "ROLE_USER");
+        AuthGroup authGroup5 = new AuthGroup("sambrown@example.com", "ROLE_USER");
+        authGroupRepoI.save(authGroup1);
+        authGroupRepoI.save(authGroup2);
+        authGroupRepoI.save(authGroup3);
+        authGroupRepoI.save(authGroup4);
+        authGroupRepoI.save(authGroup5);
+
 
 
         Stock investment1 = new Stock(1,"Apple Inc.", "AAPL", 128.28, "Technology company.");

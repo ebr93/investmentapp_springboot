@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,7 @@ public class User {
     String email;
 
     @NonNull
-    @Column(name = "password", length = 45)
+    @Column(name = "password", length = 100)
     String password;
 
     @OneToOne(fetch = FetchType.EAGER, cascade =  {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
@@ -50,6 +51,10 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "user_stock_id", referencedColumnName = "id"))
     @ToString.Exclude
     List<UserPosition> userStocks = new ArrayList<>();
+
+    public void setPassword(String password) {
+        this.password = new BCryptPasswordEncoder(4).encode(password);
+    }
 
     @Override
     public boolean equals(Object o) {

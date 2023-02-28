@@ -49,15 +49,15 @@
             <div class="image-hero-two"></div>
         </div>
 
-        <!-- Right-Main (Form) -->
-        <form method="post" th:action="@{login}" th:object="${user}" class="col-md-7 vstack align-items-center justify-content-center needs-validation login-validation">
+        <!-- Right-Main (Form) goes inside form th:object="${user}"-->
+        <form method="post" th:action="@{/login/processing}" class="col-md-7 vstack align-items-center justify-content-center needs-validation login-validation">
             <div class="col-8">
                 <label for="emailInput" class="form-label">Email address</label>
-                <input type="email" class="form-control" id="emailInput" th:field="*{email}" required>
+                <input type="email" class="form-control" id="emailInput" name="email" required>
             </div>
             <div class="mb-3 col-8">
                 <label for="passwordInput" class="form-label">Password</label>
-                <input type="password" class="form-control" id="passwordInput" minlength="8" pattern="(?=^.{8,}$)(?=.*\d)(?=.*[!@#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" th:field="*{password}" required>
+                <input type="password" class="form-control" id="passwordInput" minlength="8" pattern="(?=^.{8,}$)(?=.*\d)(?=.*[!@#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" name="password" required>
                 <div class="valid-feedback">Looks good!</div>
                 <div class="invalid-feedback">Invalid email and/or password</div>
             </div>
@@ -66,6 +66,8 @@
                 <label class="form-check-label" for="rememberCheck">Remember Me</label>
             </div>
             <a th:href="@{dashboard}" class="col-4"><button type="submit" id="loginBttn" class="btn btn-primary col-12">Submit</button></a>
+            <!-- <span th:if="${param.error}" th:text="${'Wrong username or password'}" class="error text-warning text-danger"></span>
+            -->
         </form>
     </div>
 
