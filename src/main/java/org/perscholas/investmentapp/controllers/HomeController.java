@@ -1,19 +1,20 @@
 package org.perscholas.investmentapp.controllers;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.perscholas.investmentapp.dao.AddressRepoI;
+import org.perscholas.investmentapp.dao.PossessionRepoI;
 import org.perscholas.investmentapp.dao.StockRepoI;
-import org.perscholas.investmentapp.dao.UserPositionRepoI;
 import org.perscholas.investmentapp.dao.UserRepoI;
 import org.perscholas.investmentapp.dto.StockDTO;
 import org.perscholas.investmentapp.models.Address;
+import org.perscholas.investmentapp.models.Possession;
 import org.perscholas.investmentapp.models.Stock;
 import org.perscholas.investmentapp.models.User;
-import org.perscholas.investmentapp.services.UserAndPositionServices;
+import org.perscholas.investmentapp.services.PossessionServices;
+import org.perscholas.investmentapp.services.StockServices;
+import org.perscholas.investmentapp.services.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,24 +24,29 @@ import java.util.Optional;
 
 @Controller
 @Slf4j
-@SessionAttributes(value = {"msg"})
+// @SessionAttributes(value = {"msg"})
 public class HomeController {
-    private final AddressRepoI addressRepoI;
-    UserRepoI userRepoI;
-    StockRepoI stockRepoI;
-    UserPositionRepoI userPositionRepoI;
+    AddressRepoI addressRepoI;
+    private final UserRepoI userRepoI;
+    private final StockRepoI stockRepoI;
+    PossessionRepoI possessionRepoI;
 
-    UserAndPositionServices userAndPositionServices;
+    PossessionServices possessionServices;
+    private final UserServices userServices;
+    private final StockServices stockServices;
 
     @Autowired
-    public HomeController(UserRepoI userRepoI, StockRepoI stockRepoI, UserPositionRepoI userPositionRepoI,
-                          AddressRepoI addressRepoI, UserAndPositionServices userAndPositionServices) {
+    public HomeController(UserRepoI userRepoI, StockRepoI stockRepoI, PossessionRepoI possessionRepoI,
+                          AddressRepoI addressRepoI, PossessionServices possessionServices,
+                          UserServices userServices, StockServices stockServices) {
 
         this.userRepoI = userRepoI;
         this.stockRepoI = stockRepoI;
-        this.userPositionRepoI = userPositionRepoI;
+        this.possessionRepoI = possessionRepoI;
         this.addressRepoI = addressRepoI;
-        this.userAndPositionServices = userAndPositionServices;
+        this.possessionServices = possessionServices;
+        this.userServices = userServices;
+        this.stockServices = stockServices;
     }
 
     @GetMapping("/index")
@@ -54,17 +60,46 @@ public class HomeController {
     }
 
     @GetMapping("/dashboard")
-    public String dashPage(@SessionAttribute("msg") String msg, Model model, HttpServletRequest request) {
-        //log.warn("I am in the dashboard controller method");
-        log.warn("third call " + msg);
-        model.addAttribute("msg", "Hello World Dashboard");
-        log.warn("fourth call " + msg);
-        // MAKE SURE I MAKE A SERVICE METHOD FOR THIS
-        List<StockDTO> allStocks = userAndPositionServices.allStocks();
+    public String dashPage(Model model, HttpServletRequest request) {
+        log.warn("I am in the dashboard controller method");
+        //log.warn("third call " + msg);
+        //model.addAttribute("msg", "Hello World Dashboard");
+        //log.warn("fourth call " + msg);
 
+        List<StockDTO> allStocks = stockServices.allStocks();
         model.addAttribute("allStocks", allStocks);
-        allStocks.forEach((s) -> System.out.println(s));
+
+        //allStocks.forEach((s) -> System.out.println(s));
         return "dashboard";
+    }
+
+    @PostMapping("/dashboard")
+    public String addStock(@RequestParam("ticker") String ticker,
+                           @RequestParam("shares") double shares) throws Exception {
+        log.warn("add stock has initialized");
+        User userOne = userRepoI.findById(1).get();
+        Stock stock = stockRepoI.findByTicker(ticker).get();
+        Possession possession = new Possession(shares, userOne, stock);
+
+        // This also works
+        possessionServices.createOrUpdate(possession);
+        userServices.savePositionToUser(possession);
+        stockServices.savePositionToStock(possession.getStock().getId(), possession.getId());
+
+        // this works
+        //        possessionRepoI.save(possession);
+//        userOne.addPossession(possession);
+//        stock.addPossession(possession);
+//        userRepoI.save(userOne);
+//        stockRepoI.save(stock);
+
+        log.warn("stock has been added to user 1");
+
+//        log.warn("user process method" + user);
+//        log.warn(user.toString());
+//        userRepoI.save(user);
+
+        return "redirect:/signup";
     }
 
     // DELETING BECAUSE SPRING SECURITY TAKES CARE OF THESE
@@ -118,13 +153,11 @@ public class HomeController {
     public String getUserWithID(@PathVariable(name = "id") int id,
                                 Model model) {
         log.warn(String.valueOf(id));
-        //log.warn(userPositionRepoI.findById(id).toString());
         log.warn(userRepoI.findById(id).toString());
         User user = userRepoI.findById(id).get();
         model.addAttribute("userValue", user);
 
-        // MAKE SURE I MAKE A SERVICE METHOD FOR THIS
-        List<StockDTO> allStocks = userAndPositionServices.allStocks();
+        List<StockDTO> allStocks = stockServices.allStocks();
 
         model.addAttribute("allStocks", allStocks);
         allStocks.forEach((s) -> System.out.println(s));

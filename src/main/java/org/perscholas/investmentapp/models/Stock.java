@@ -5,7 +5,6 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -42,11 +41,11 @@ public class Stock {
     String description;
 
     @OneToMany(fetch = FetchType.EAGER, cascade =  {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-    @JoinTable(name = "stock_join_position",
+    @JoinTable(name = "stock_and_possessions",
             joinColumns = @JoinColumn(name = "stock_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "user_stock_id", referencedColumnName = "id"))
     @ToString.Exclude
-    List<UserPosition> userStocks = new ArrayList<>();
+    List<Possession> userStocks = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {
@@ -59,5 +58,15 @@ public class Stock {
     @Override
     public int hashCode() {
         return Objects.hash(investmentName, ticker, description);
+    }
+
+    public void addPossession(Possession possession) {
+        userStocks.add(possession);
+        log.debug("add user position executed!");
+    }
+
+    public void removePossession(Possession possession) {
+        userStocks.remove(possession);
+        log.debug("remove user position executed!");
     }
 }

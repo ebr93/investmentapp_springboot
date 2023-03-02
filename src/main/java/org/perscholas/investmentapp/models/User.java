@@ -46,11 +46,11 @@ public class User {
     Address address;
 
     @OneToMany(fetch = FetchType.EAGER, cascade =  {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-    @JoinTable(name = "user_join_position",
+    @JoinTable(name = "user_portfolio",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "user_stock_id", referencedColumnName = "id"))
     @ToString.Exclude
-    List<UserPosition> userStocks = new ArrayList<>();
+    List<Possession> userPossessions = new ArrayList<>();
 
     public void setPassword(String password) {
         this.password = new BCryptPasswordEncoder(4).encode(password);
@@ -69,5 +69,13 @@ public class User {
         return Objects.hash(firstName, lastName, email, password);
     }
 
+    public void addPossession(Possession possession) {
+        userPossessions.add(possession);
+        log.debug("add user position executed!");
+    }
 
+    public void removePossession(Possession possession) {
+        userPossessions.remove(possession);
+        log.debug("remove user position executed!");
+    }
 }

@@ -17,7 +17,7 @@ import java.util.Objects;
 @Getter
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserPosition {
+public class Possession {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -35,18 +35,18 @@ public class UserPosition {
     @NonNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "investment_id")
-    Stock investment;
+    Stock stock;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UserPosition userPosition = (UserPosition) o;
-        return Objects.equals(user, userPosition.user) && Objects.equals(investment, userPosition.investment);
+        Possession possession = (Possession) o;
+        return Objects.equals(user, possession.user) && Objects.equals(stock, possession.stock);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(user, investment);
+        return Objects.hash(user, stock);
     }
 }

@@ -7,13 +7,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.perscholas.investmentapp.dao.*;
 
 import org.perscholas.investmentapp.models.*;
-import org.perscholas.investmentapp.services.UserAndPositionServices;
+import org.perscholas.investmentapp.services.PossessionServices;
+import org.perscholas.investmentapp.services.StockServices;
+import org.perscholas.investmentapp.services.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Component
@@ -22,19 +21,26 @@ import java.util.List;
 public class MyCommandLineRunner implements CommandLineRunner {
     UserRepoI userRepoI;
     StockRepoI stockRepoI;
-    UserPositionRepoI userPositionRepoI;
+    PossessionRepoI possessionRepoI;
     AddressRepoI addressRepoI;
-    UserAndPositionServices userAndPositionServices;
+    PossessionServices possessionServices;
     AuthGroupRepoI authGroupRepoI;
+    UserServices userServices;
+    StockServices stockServices;
 
 
     @Autowired
-    public MyCommandLineRunner(UserRepoI userRepoI, StockRepoI stockRepoI, UserPositionRepoI userPositionRepoI, AddressRepoI addressRepoI, UserAndPositionServices userAndPositionServices, AuthGroupRepoI authGroupRepoI) {
+    public MyCommandLineRunner(UserRepoI userRepoI, StockRepoI stockRepoI,
+                                PossessionRepoI possessionRepoI, AddressRepoI addressRepoI,
+                                PossessionServices possessionServices, AuthGroupRepoI authGroupRepoI,
+                                UserServices userServices, StockServices stockServices) {
         this.userRepoI = userRepoI;
         this.stockRepoI = stockRepoI;
-        this.userPositionRepoI = userPositionRepoI;
+        this.possessionRepoI = possessionRepoI;
         this.addressRepoI = addressRepoI;
-        this.userAndPositionServices = userAndPositionServices;
+        this.possessionServices = possessionServices;
+        this.userServices = userServices;
+        this.stockServices = stockServices;
         this.authGroupRepoI = authGroupRepoI;
     }
 
@@ -148,27 +154,59 @@ public class MyCommandLineRunner implements CommandLineRunner {
         stockRepoI.saveAndFlush(investment24);
         stockRepoI.saveAndFlush(investment25);
 
-        UserPosition us = new UserPosition(35.0, user1, investment3);
-        UserPosition us1 = new UserPosition(20.0, user1, investment4);
-        UserPosition us2 = new UserPosition(10.0, user1, investment5);
-        UserPosition us3 = new UserPosition(15.0, user1, investment6);
-        UserPosition us4 = new UserPosition(85.0, user1, investment7);
-        UserPosition us6 = new UserPosition(15.0, user2, investment3);
-        UserPosition us7 = new UserPosition(5.0, user3, investment4);
-        UserPosition us8 = new UserPosition(55.0, user2, investment5);
-        UserPosition us9 = new UserPosition(25.0, user2, investment6);
-        UserPosition us0 = new UserPosition(3.0, user3, investment7);
+        Possession us5 = new Possession(35.0, user1, investment3);
+        Possession us1 = new Possession(20.0, user1, investment4);
+        Possession us2 = new Possession(10.0, user1, investment5);
+        Possession us3 = new Possession(15.0, user1, investment6);
+        Possession us4 = new Possession(85.0, user1, investment7);
+        Possession us6 = new Possession(15.0, user2, investment3);
+        Possession us7 = new Possession(5.0, user3, investment4);
+        Possession us8 = new Possession(55.0, user2, investment5);
+        Possession us9 = new Possession(25.0, user2, investment6);
+        Possession us0 = new Possession(3.0, user3, investment7);
 
-        userAndPositionServices.addingNewPosition(us);
-        userAndPositionServices.addingNewPosition(us0);
-        userAndPositionServices.addingNewPosition(us1);
-        userAndPositionServices.addingNewPosition(us2);
-        userAndPositionServices.addingNewPosition(us3);
-        userAndPositionServices.addingNewPosition(us4);
-        userAndPositionServices.addingNewPosition(us6);
-        userAndPositionServices.addingNewPosition(us7);
-        userAndPositionServices.addingNewPosition(us8);
-        userAndPositionServices.addingNewPosition(us9);
+//        possessionServices.addingNewPosition(us);
+//        possessionServices.addingNewPosition(us0);
+//        possessionServices.addingNewPosition(us1);
+//        possessionServices.addingNewPosition(us2);
+//        possessionServices.addingNewPosition(us3);
+//        possessionServices.addingNewPosition(us4);
+//        possessionServices.addingNewPosition(us6);
+//        possessionServices.addingNewPosition(us7);
+//        possessionServices.addingNewPosition(us8);
+//        possessionServices.addingNewPosition(us9);
+        possessionServices.createOrUpdate(us1);
+        possessionServices.createOrUpdate(us2);
+        possessionServices.createOrUpdate(us3);
+        possessionServices.createOrUpdate(us4);
+        possessionServices.createOrUpdate(us5);
+        possessionServices.createOrUpdate(us6);
+        possessionServices.createOrUpdate(us7);
+        possessionServices.createOrUpdate(us8);
+        possessionServices.createOrUpdate(us9);
+        possessionServices.createOrUpdate(us0);
+        userServices.savePositionToUser(us1);
+        userServices.savePositionToUser(us2);
+        userServices.savePositionToUser(us3);
+        userServices.savePositionToUser(us4);
+        userServices.savePositionToUser(us5);
+        userServices.savePositionToUser(us6);
+        userServices.savePositionToUser(us7);
+        userServices.savePositionToUser(us8);
+        userServices.savePositionToUser(us9);
+        userServices.savePositionToUser(us0);
+        stockServices.savePositionToStock(us1.getStock().getId(), us1.getId());
+        stockServices.savePositionToStock(us2.getStock().getId(), us2.getId());
+        stockServices.savePositionToStock(us3.getStock().getId(), us3.getId());
+        stockServices.savePositionToStock(us4.getStock().getId(), us4.getId());
+        stockServices.savePositionToStock(us5.getStock().getId(), us5.getId());
+        stockServices.savePositionToStock(us6.getStock().getId(), us6.getId());
+        stockServices.savePositionToStock(us7.getStock().getId(), us7.getId());
+        stockServices.savePositionToStock(us8.getStock().getId(), us8.getId());
+        stockServices.savePositionToStock(us9.getStock().getId(), us9.getId());
+        stockServices.savePositionToStock(us0.getStock().getId(), us0.getId());
+
+
 
     }
 }

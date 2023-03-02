@@ -21,9 +21,10 @@ public class MyControllerAdvice {
         return redirectView;
     }
 
+    // Session Attribute
     // centralized in one place, so it's not copied over and over on other controllers
-    @ModelAttribute
-    public void initModel(Model model) {
-        model.addAttribute("msg", "used for SessionAttribute");
-    }
+//    @ModelAttribute
+//    public void initModel(Model model) {
+//        model.addAttribute("msg", "used for SessionAttribute");
+//    }
 }

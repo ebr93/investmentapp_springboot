@@ -44,6 +44,7 @@
     <div class="col-12" id="dash-top">
       <pre class="class col-12 d-flex justify-content-end align-items-center">Welcome <span th:object="${userValue}" th:text="*{firstName}"></span></pre>
     </div>
+    <!-- fix duplicate id on this file, lines 47,49 and lines 72,73-->
     <div class="col-12 col-md-6 vh-50 p-3" id="dash-right">
       <button class="btn btn-outline-light" id="fetch-stocks">Stocks</button>
       <ul class="row" id="stocks-container">
@@ -69,8 +70,8 @@
       <div>
         <a class="text-bg-primary" th:href="@{/path/{id}}"></a>
       </div>
-      <div class="col-12 col-md-6 vh-50 p-3" id="dash-right">
-        <ul class="row" id="stocks-container">
+      <div class="col-12 col-md-6 vh-50 p-3" id="dash-right-two">
+        <ul class="row" id="stocks-container-two">
         </ul>
         <table class="table text-bg-dark">
           <thead>
@@ -91,7 +92,7 @@
             <td scope="row" th:text="*{address}">
           </tr>
           <tr th:object="${userValue}">
-            <td scope="row" th:text="*{userStocks}">
+            <td scope="row" th:text="*{userPossessions}">
           </tr>
 
         </table>

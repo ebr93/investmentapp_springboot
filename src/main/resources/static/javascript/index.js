@@ -157,7 +157,7 @@ const dashListeners = (() => {
       stockButton.addEventListener('click', (e) => {
         console.log('this clicked');
         console.log(e.target.id);
-        tradedStock.innerText = e.target.id;
+        tradedStock.value = e.target.id;
       })
     ) 
   }

@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class InvestmentappApplication {
 
 	public static void main(String[] args) {
-		// had to exclude collections of Entities such as List<UserPosition> caused stack overflow
+		// had to exclude collections of Entities such as List<Possession> caused stack overflow
 		try {
 			SpringApplication app = new SpringApplication(InvestmentappApplication.class);
 			app.run(args);
