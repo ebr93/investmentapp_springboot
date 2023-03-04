@@ -11,7 +11,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Entity
-@Table(name = "user_position")
+@Table(name = "possession")
 @Slf4j
 @Setter
 @Getter

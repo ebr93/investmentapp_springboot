@@ -208,9 +208,7 @@ const loginForm = (() => {
     bttnLogin.addEventListener('click', event => {
       // userLoginValidation() is a function to validate the user input, returns true or false
       if (userLoginValidation(emailLogin.value, passLogin.value)) {
-        window.open('dashboard.html', '_self');
-        event.preventDefault();
-        event.preventDefault();
+
       } else {
         event.preventDefault();
         event.stopPropagation();

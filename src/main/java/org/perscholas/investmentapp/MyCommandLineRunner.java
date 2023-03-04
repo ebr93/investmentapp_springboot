@@ -58,9 +58,9 @@ public class MyCommandLineRunner implements CommandLineRunner {
         Address address5 = new Address("654 Cedar Ave", "IL", 60601);
         addressRepoI.saveAndFlush(address1);
         addressRepoI.saveAndFlush(address2);
-        addressRepoI.saveAndFlush(address3);
-        addressRepoI.saveAndFlush(address4);
-        addressRepoI.saveAndFlush(address5);
+//        addressRepoI.saveAndFlush(address3);
+//        addressRepoI.saveAndFlush(address4);
+//        addressRepoI.saveAndFlush(address5);
 
 
 
@@ -71,24 +71,31 @@ public class MyCommandLineRunner implements CommandLineRunner {
         User user5 = new User("Sam", "Brown", "sambrown@example.com", "Hello1234!");
         user1.setPassword(user1.getPassword());
         user2.setPassword(user2.getPassword());
-        user3.setPassword(user3.getPassword());
-        user4.setPassword(user4.getPassword());
-        user5.setPassword(user5.getPassword());
+//        user3.setPassword(user3.getPassword());
+//        user4.setPassword(user4.getPassword());
+//        user5.setPassword(user5.getPassword());
         userRepoI.saveAndFlush(user1);
         userRepoI.saveAndFlush(user2);
-        userRepoI.saveAndFlush(user3);
-        userRepoI.saveAndFlush(user4);
-        userRepoI.saveAndFlush(user5);
+//        userRepoI.saveAndFlush(user3);
+//        userRepoI.saveAndFlush(user4);
+//        userRepoI.saveAndFlush(user5);
         user1.setAddress(address1);
         user2.setAddress(address2);
-        user3.setAddress(address3);
-        user4.setAddress(address4);
-        user5.setAddress(address5);
+//        user3.setAddress(address3);
+//        user4.setAddress(address4);
+//        user5.setAddress(address5);
         userRepoI.saveAndFlush(user1);
         userRepoI.saveAndFlush(user2);
-        userRepoI.saveAndFlush(user3);
-        userRepoI.saveAndFlush(user4);
-        userRepoI.saveAndFlush(user5);
+//        userRepoI.saveAndFlush(user3);
+//        userRepoI.saveAndFlush(user4);
+//        userRepoI.saveAndFlush(user5);
+        userServices.createOrUpdate(user3);
+        userServices.createOrUpdate(user4);
+        userServices.createOrUpdate(user5);
+
+        userServices.addOrUpdateAddress(address3, user3);
+        userServices.addOrUpdateAddress(address4, user4);
+        userServices.addOrUpdateAddress(address5, user5);
 
         AuthGroup authGroup1 = new AuthGroup("janedoe@example.com", "ROLE_ADMIN");
         AuthGroup authGroup2 = new AuthGroup("email@email.com", "ROLE_ADMIN");
@@ -97,9 +104,9 @@ public class MyCommandLineRunner implements CommandLineRunner {
         AuthGroup authGroup5 = new AuthGroup("sambrown@example.com", "ROLE_USER");
         authGroupRepoI.save(authGroup1);
         authGroupRepoI.save(authGroup2);
-        authGroupRepoI.save(authGroup3);
-        authGroupRepoI.save(authGroup4);
-        authGroupRepoI.save(authGroup5);
+//        authGroupRepoI.save(authGroup3);
+//        authGroupRepoI.save(authGroup4);
+//        authGroupRepoI.save(authGroup5);
 
 
 

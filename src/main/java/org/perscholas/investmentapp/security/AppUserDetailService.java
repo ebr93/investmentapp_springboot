@@ -18,7 +18,7 @@ public class AppUserDetailService implements UserDetailsService {
 
     @Autowired
     public AppUserDetailService(UserRepoI userRepoI, AuthGroupRepoI authGroupRepoI) {
-        this.userRepoI = userRepoI;
+        //this.userRepoI = userRepoI;
         this.authGroupRepoI = authGroupRepoI;
         this.userRepoI = userRepoI;
     }

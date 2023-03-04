@@ -24,7 +24,7 @@ import java.util.Optional;
 
 @Controller
 @Slf4j
-// @SessionAttributes(value = {"msg"})
+@SessionAttributes("currentUser")
 public class HomeController {
     AddressRepoI addressRepoI;
     private final UserRepoI userRepoI;
@@ -60,68 +60,56 @@ public class HomeController {
     }
 
     @GetMapping("/dashboard")
-    public String dashPage(Model model, HttpServletRequest request) {
-        log.warn("I am in the dashboard controller method");
-        //log.warn("third call " + msg);
-        //model.addAttribute("msg", "Hello World Dashboard");
-        //log.warn("fourth call " + msg);
+    public String dashPage(Model model) throws Exception {
+        log.warn("/dashboard");
 
         List<StockDTO> allStocks = stockServices.allStocks();
         model.addAttribute("allStocks", allStocks);
 
+        User myUser = userRepoI.findById(1).get();
+        model.addAttribute("myUser", myUser);
+
+        List<Possession> userPortfolio = userServices.retrievePortfolio(myUser.getEmail());
+        model.addAttribute("userPortfolio", userPortfolio);
         //allStocks.forEach((s) -> System.out.println(s));
+
+        log.warn("/dashboard: models have been developed");
+
         return "dashboard";
     }
 
-    @PostMapping("/dashboard")
+    @PostMapping("/dashboard/addstock")
     public String addStock(@RequestParam("ticker") String ticker,
                            @RequestParam("shares") double shares) throws Exception {
-        log.warn("add stock has initialized");
+        log.warn("/dashboard/addstock: add stock has initialized");
         User userOne = userRepoI.findById(1).get();
         Stock stock = stockRepoI.findByTicker(ticker).get();
         Possession possession = new Possession(shares, userOne, stock);
 
-        // This also works
-        possessionServices.createOrUpdate(possession);
-        userServices.savePositionToUser(possession);
-        stockServices.savePositionToStock(possession.getStock().getId(), possession.getId());
+        possessionServices.createOrUpdate(possession, userOne, stock);
+        log.warn("/dashboard/addstock: stock has been added to user 1");
 
-        // this works
-        //        possessionRepoI.save(possession);
-//        userOne.addPossession(possession);
-//        stock.addPossession(possession);
-//        userRepoI.save(userOne);
-//        stockRepoI.save(stock);
-
-        log.warn("stock has been added to user 1");
-
-//        log.warn("user process method" + user);
-//        log.warn(user.toString());
-//        userRepoI.save(user);
-
-        return "redirect:/signup";
+        return "redirect:/dashboard";
     }
 
-    // DELETING BECAUSE SPRING SECURITY TAKES CARE OF THESE
-    // grabs the data from form
     @GetMapping("/login")
     public String loginPageValidation(Model model) {
         model.addAttribute("user", new User());
-        log.warn("I am in the login-validation controller method");
-        //log.warn(userRepoI.findByEmailAndPassword(email, password).toString());
+        log.warn("/login: I am in login page");
+
         return "login";
     }
 
     // verifies if email and password exist within database, if so login
-    @PostMapping("/login")
+    @PostMapping("/login/process")
     public String loginProcess(@ModelAttribute("user") User user) {
         Optional<User> confirmUser = userRepoI.findByEmailAndPassword(user.getEmail(), user.getPassword());
-        //log.warn(confirmUser.toString()); won't print if null
+
         if (confirmUser == null) {
-            return "login";
+            return "/login: user login was not successful, user was null";
         } else {
-            log.warn(confirmUser.toString());
-            return "redirect:/dashboard";
+            log.warn("/login: user" + confirmUser.get().getEmail() + "has successfully logged in");
+            return "redirect:/user/dashboard";
         }
     }
 
@@ -129,7 +117,7 @@ public class HomeController {
     public String userForm(Model model) {
         model.addAttribute("user", new User());
 
-        log.warn("user form method");
+        log.warn("/signup: model completed");
         return "signup";
     }
 
@@ -142,10 +130,10 @@ public class HomeController {
         Address ua = new Address(street, state, zip);
         addressRepoI.saveAndFlush(ua);
         user.setAddress(ua);
-        log.warn("user process method" + user);
-        log.warn(user.toString());
         userRepoI.save(user);
 
+        log.warn("/signup: user successfully signed up");
+        log.warn(user.toString());
         return "redirect:/login";
     }
 
@@ -155,7 +143,7 @@ public class HomeController {
         log.warn(String.valueOf(id));
         log.warn(userRepoI.findById(id).toString());
         User user = userRepoI.findById(id).get();
-        model.addAttribute("userValue", user);
+        model.addAttribute("currenUser", user);
 
         List<StockDTO> allStocks = stockServices.allStocks();
 

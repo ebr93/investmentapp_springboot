@@ -86,6 +86,10 @@ img {
   font-family: 'Nanum Gothic', sans-serif;
 }
 
+.input-modifier {
+  pointer-events: none;
+}
+
 @media (max-width: 767px) {
   .image-hero-two {
     height: 250px;
