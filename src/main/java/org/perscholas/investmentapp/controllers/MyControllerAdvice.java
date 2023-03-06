@@ -28,7 +28,7 @@ public class MyControllerAdvice {
         log.debug("something happened");
         ex.printStackTrace();
         RedirectView redirectView = new RedirectView();
-        redirectView.setUrl("http://localhost:8080/signup");
+        redirectView.setUrl("http://localhost:8080/index");
         return redirectView;
     }
 
@@ -47,15 +47,16 @@ public class MyControllerAdvice {
     @ModelAttribute
     public void loggedInUser(Model model, HttpServletRequest request, HttpSession http){
         Principal p = request.getUserPrincipal();
+
         User user = null;
         if(p != null){
             user =  userRepoI.findByEmail(p.getName()).get();
             http.setAttribute("currentUser", user);
-            log.warn("MyControllerAdvice: session attr theStudent in advice controller  " + http.getAttribute("currentUser").toString());
+            //log.warn("MyControllerAdvice: session attr theStudent in advice controller  " + http.getAttribute("currentUser").toString());
 
         }
         model.addAttribute("currentUser", user);
-        log.warn("MyControllerAdvice: principal was null");
+        //log.warn("MyControllerAdvice: principal was null");
     }
 
 

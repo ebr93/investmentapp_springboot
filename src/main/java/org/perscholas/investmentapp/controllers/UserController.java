@@ -110,7 +110,7 @@ class UserController {
         Possession possession = new Possession(shares, user, stock);
 
         possessionServices.createOrUpdate(possession, user, stock);
-        log.warn("user/dashboard/addstock: stock has been added to user 1");
+        log.warn("user/dashboard/addstock: stock has been added to user " + user.getEmail());
 
         return "redirect:/user/dashboard";
     }
@@ -135,6 +135,45 @@ class UserController {
             throw new Exception("/user/portfolio : Principal was not an instance of AppUserPrincipal");
         }
         return "userportfolio";
+    }
+
+    @PostMapping("/portfolio/edit")
+    public String editPossession(@ModelAttribute("currentUser") User user,
+                                 @RequestParam("ticker") String ticker,
+                                 @RequestParam("shares") double shares) throws Exception {
+
+        log.warn("/user/dashboard/addstock: add stock has initialized");
+        log.warn("/user/dashboard/addstock: " + user);
+        log.warn("/user/dashboard/addstock: " + user.getEmail());
+        Stock stock = stockRepoI.findByTicker(ticker).get();
+        Possession possession = new Possession(shares, user, stock);
+
+        possessionServices.createOrUpdate(possession, user, stock);
+        log.warn("user/portfolio/edit: possession has been edited for " + user.getEmail());
+
+        return "redirect:/user/portfolio";
+    }
+
+    @PostMapping("/portfolio/delete/{ticker}")
+    public String deletePossession(@ModelAttribute("currentUser") User user,
+                                 @PathVariable(name="ticker") String ticker) throws Exception {
+        if (ticker != null) {
+            log.warn("/user/portfolio/delete: add stock has initialized");
+            log.warn("/user/portfolio/delete: " + ticker);
+            log.warn("/user/portfolio/delete: " + user);
+            log.warn("/user/portfolio/delete: " + user.getEmail());
+
+            System.out.println(ticker.toString());
+
+            Stock stock = stockRepoI.findByTicker(ticker).get();
+
+            userServices.deletePossesionToUser(stock, user);
+            log.warn("user/portfolio/delete: possession has been removed from user " + user.getEmail());
+
+            return "redirect:/user/portfolio";
+        } else {
+            throw new Exception("/user/portfolio : Principal was not an instance of AppUserPrincipal");
+        }
     }
 
 //    @GetMapping("/portfolio/{id}")

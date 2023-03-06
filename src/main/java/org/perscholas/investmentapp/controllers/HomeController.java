@@ -1,16 +1,12 @@
 package org.perscholas.investmentapp.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
-import org.perscholas.investmentapp.dao.AddressRepoI;
-import org.perscholas.investmentapp.dao.PossessionRepoI;
-import org.perscholas.investmentapp.dao.StockRepoI;
-import org.perscholas.investmentapp.dao.UserRepoI;
+import org.perscholas.investmentapp.dao.*;
 import org.perscholas.investmentapp.dto.StockDTO;
-import org.perscholas.investmentapp.models.Address;
-import org.perscholas.investmentapp.models.Possession;
-import org.perscholas.investmentapp.models.Stock;
-import org.perscholas.investmentapp.models.User;
+import org.perscholas.investmentapp.models.*;
+import org.perscholas.investmentapp.security.AppUserDetailService;
 import org.perscholas.investmentapp.services.PossessionServices;
 import org.perscholas.investmentapp.services.StockServices;
 import org.perscholas.investmentapp.services.UserServices;
@@ -18,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -34,11 +31,14 @@ public class HomeController {
     PossessionServices possessionServices;
     private final UserServices userServices;
     private final StockServices stockServices;
+    AuthGroupRepoI authGroupRepoI;
+    AppUserDetailService appUserDetailService;
 
     @Autowired
     public HomeController(UserRepoI userRepoI, StockRepoI stockRepoI, PossessionRepoI possessionRepoI,
                           AddressRepoI addressRepoI, PossessionServices possessionServices,
-                          UserServices userServices, StockServices stockServices) {
+                          UserServices userServices, StockServices stockServices,
+                          AuthGroupRepoI authGroupRepoI, AppUserDetailService appUserDetailService) {
 
         this.userRepoI = userRepoI;
         this.stockRepoI = stockRepoI;
@@ -47,6 +47,9 @@ public class HomeController {
         this.possessionServices = possessionServices;
         this.userServices = userServices;
         this.stockServices = stockServices;
+        this.authGroupRepoI = authGroupRepoI;
+        this.appUserDetailService =appUserDetailService;
+
     }
 
     @GetMapping("/index")
@@ -106,12 +109,31 @@ public class HomeController {
         Optional<User> confirmUser = userRepoI.findByEmailAndPassword(user.getEmail(), user.getPassword());
 
         if (confirmUser == null) {
+            log.warn("/login: user" + confirmUser.get().getEmail() + "has successfully logged in");
+
             return "/login: user login was not successful, user was null";
         } else {
             log.warn("/login: user" + confirmUser.get().getEmail() + "has successfully logged in");
             return "redirect:/user/dashboard";
         }
     }
+
+//    @PostMapping("/login/processing")
+//    public String loginProcess(@ModelAttribute("user") User user,
+//                               Model model, HttpServletRequest request, HttpSession http) {
+//        Principal p = request.getUserPrincipal();
+//        User loggedUser = null;
+//        if(p != null) {
+//            loggedUser =  userRepoI.findByEmail(p.getName()).get();
+//            http.setAttribute("currentUser", loggedUser);
+//            log.warn("MyControllerAdvice: session attr theStudent in advice controller  " + http.getAttribute("currentUser").toString());
+//            return "redirect:/user/dashboard";
+//        }
+//        model.addAttribute("currentUser", user);
+//        log.warn("MyControllerAdvice: principal was null");
+//        return "/login: user login was not successful, user was null";
+//
+//    }
 
     @GetMapping("/signup")
     public String userForm(Model model) {
@@ -126,11 +148,28 @@ public class HomeController {
                                   @RequestParam("street") String street,
                                   @RequestParam("state") String state,
                                   @RequestParam("zip") int zip) {
+        // this works, but won't login new user
+        user = userServices.createOrUpdate(user);
+        user = userServices.addOrUpdateAddress(new Address(street, state, zip), user);
 
-        Address ua = new Address(street, state, zip);
-        addressRepoI.saveAndFlush(ua);
-        user.setAddress(ua);
-        userRepoI.save(user);
+        // changed to createOrUpdateRunning and added createAuthRunning
+//        user = userServices.createOrUpdateRunning(user);
+//        user = userServices.addOrUpdateAddress(new Address(street, state, zip), user);
+//        user = userServices.createAuthRunning(user);
+        //appUserDetailService.loadUserByUsername(user.getEmail());
+
+
+
+
+
+        // This might not have been the bestway
+//        AuthGroup newAuth = new AuthGroup(user.getEmail(), "ROLE_USER");
+//        authGroupRepoI.save(newAuth);
+
+//        Address ua = new Address(street, state, zip);
+//        addressRepoI.saveAndFlush(ua);
+//        user.setAddress(ua);
+//        userRepoI.save(user);
 
         log.warn("/signup: user successfully signed up");
         log.warn(user.toString());

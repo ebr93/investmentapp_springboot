@@ -53,6 +53,7 @@ public class User {
     List<Possession> userPossessions = new ArrayList<>();
 
     public void setPassword(String password) {
+
         this.password = new BCryptPasswordEncoder(4).encode(password);
     }
 
