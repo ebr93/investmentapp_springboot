@@ -83,37 +83,41 @@
     <!-- th:object="${updateUser}"  -->
 
     <!-- Update Form-->
-    <div class="col-12 col-md-7">
+    <div class="col-12 col-md-10">
       <!-- Form, this form allows to add new users -->
       <form method="post" th:action="@{/user/account/edit}" 
       class="row g-3 needs-validation signup-validation">
           <div class="col-md-6">
               <label for="fName" class="form-label">First name</label>
-              <input type="text" class="form-control" id="fName" th:field="*{firstName}" 
+              <input type="text" class="form-control" id="fName" 
+              th:field="*{firstName}" 
               th:object="${currentUser}"
-              th:text="currentUser.firstName" required>
+              required>
 
           </div>
           <div class="col-md-6">
               <label for="lName" class="form-label">Last name</label>
-              <input type="text" class="form-control" id="lName" th:field="*{lastName}" 
+              <input type="text" class="form-control" id="lName" 
+              th:field="*{lastName}" 
               th:object="${currentUser}"
-              th:text="currentUser.lastName" required>
+              required>
 
           </div>
           <div class="col-md-8">
               <label for="newEmail" class="form-label">Email</label>
-              <input type="email" class="form-control" id="newEmail" th:field="*{email}" 
+              <input type="email" class="form-control" id="newEmail" 
+              th:field="*{email}" 
               th:object="${currentUser}"
-              th:text="currentUser.email" required>
+              required>
 
           </div>
 
           <div class="col-md-6">
               <label for="createPassword" class="form-label">Password</label>
-              <input type="password" class="form-control" id="createPassword" min="8" pattern="(?=^.{8,}$)(?=.*\d)(?=.*[!@#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" th:field="*{password}" 
+              <input type="password" class="form-control" id="createPassword" min="8" pattern="(?=^.{8,}$)(?=.*\d)(?=.*[!@#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" 
+              th:field="*{password}" 
               th:object="${currentUser}"
-              th:text="currentUser.firstName" required>
+              required>
 
           </div>
 
@@ -123,7 +127,7 @@
       </form>
   </div>
 
-  <div>
+  <div class="col-12 col-md-10">
     <form action="">
 
       <div class="col-md-6">
