@@ -11,7 +11,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Entity
-@Table(name = "possession")
+@Table(name = "possessions")
 @Slf4j
 @Setter
 @Getter
@@ -29,7 +29,7 @@ public class Possession {
 
     @NonNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "myuser_id")
     User user;
 
     @NonNull

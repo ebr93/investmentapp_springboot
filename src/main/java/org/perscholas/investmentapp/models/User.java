@@ -12,9 +12,9 @@ import java.util.Objects;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 @Entity
-@Table(name = "users")
+@Table(name = "myusers")
 @Slf4j
 @Setter
 @Getter
@@ -25,19 +25,15 @@ public class User {
     @Column(name = "id")
     Integer id;
 
-    @NonNull
     @Column(name = "first_name", length = 45)
     String firstName;
 
-    @NonNull
     @Column(name = "last_name", length = 45)
     String lastName;
 
-    @NonNull
     @Column(name = "email", length = 45)
     String email;
 
-    @NonNull
     @Column(name = "password", length = 100)
     String password;
 
@@ -46,11 +42,18 @@ public class User {
     Address address;
 
     @OneToMany(fetch = FetchType.EAGER, cascade =  {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-    @JoinTable(name = "user_portfolio",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "user_stock_id", referencedColumnName = "id"))
+    @JoinTable(name = "myuser_portfolio",
+            joinColumns = @JoinColumn(name = "myuser_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "possession_id", referencedColumnName = "id"))
     @ToString.Exclude
     List<Possession> userPossessions = new ArrayList<>();
+
+    public User(@NonNull String firstName, @NonNull String lastName, @NonNull String email, @NonNull String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = new BCryptPasswordEncoder(4).encode(password);
+    }
 
     public void setPassword(String password) {
 

@@ -52,11 +52,11 @@ public class MyControllerAdvice {
         if(p != null){
             user =  userRepoI.findByEmail(p.getName()).get();
             http.setAttribute("currentUser", user);
-            //log.warn("MyControllerAdvice: session attr theStudent in advice controller  " + http.getAttribute("currentUser").toString());
+            log.warn("MyControllerAdvice: session attr theStudent in advice controller  " + user.getEmail());
 
+        } else {
+            log.warn("MyControllerAdvice: principal was null");
         }
-        model.addAttribute("currentUser", user);
-        //log.warn("MyControllerAdvice: principal was null");
     }
 
 

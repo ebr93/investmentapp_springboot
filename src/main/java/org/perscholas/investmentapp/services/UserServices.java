@@ -53,9 +53,28 @@ public class UserServices {
             return userRepoI.save(originalUser);
         } else {
             log.debug("UserServices: user with email " + user.getEmail() + " has been created");
-            user.setPassword(user.getPassword());
+
+//            user.setPassword(user.getPassword());
+
             AuthGroup newAuth = new AuthGroup(user.getEmail(), "ROLE_USER");
             authGroupRepoI.save(newAuth);
+
+            return userRepoI.save(user);
+        }
+    }
+
+    public User createOrUpdateRunning(User user) {
+        Optional<User> userOptional = userRepoI.findByEmailAllIgnoreCase(user.getEmail());
+
+        if (userOptional.isPresent()) {
+            log.debug("UserServices: user with email " + user.getEmail() + " already exists");
+            User originalUser = userOptional.get();
+            originalUser.setFirstName(user.getFirstName());
+            originalUser.setLastName(user.getLastName());
+
+            return userRepoI.save(originalUser);
+        } else {
+            log.debug("UserServices: user with email " + user.getEmail() + " has been created");
 
             return userRepoI.save(user);
         }
@@ -135,11 +154,11 @@ public class UserServices {
             confirmedUser.removePossession(confirmedPossession);
             stock.removePossession(confirmedPossession);
 
-            userRepoI.saveAndFlush(confirmedUser);
+            confirmedUser = userRepoI.saveAndFlush(confirmedUser);
             stockRepoI.saveAndFlush(stock);
             possessionRepoI.delete(confirmedPossession);
 
-            return userRepoI.save(user);
+            return userRepoI.save(confirmedUser);
         } else {
             throw new Exception("removing a possession to the user " + user.getEmail() + " did not go well!!!!!");
         }
@@ -155,12 +174,5 @@ public class UserServices {
     }
 
 //    public List<StockDTO> retrievePortfolio(String email) throws Exception {
-//        if (userRepoI.findByEmailAllIgnoreCase(email).isPresent()) {
-//            log.debug("UserServices: retrievePortfolio was successful");
-//            List<Possession> portfolio = userRepoI.findByEmailAllIgnoreCase(email).get().getUserPossessions();
-//            return portfolio.stream().map(index -> index.getStock()).map(stock -> new StockDTO(stock.getInvestmentName(), stock.getTicker(), stock.getPrice(), stock.getDescription())).toList();
-//        } else {
-//            throw new Exception("retrievePortfolio: retrieving stock portfolio of the user " + email + " did not go well!!!!!");
-//        }
 //    }
 }

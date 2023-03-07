@@ -41,9 +41,9 @@ public class Stock {
     String description;
 
     @OneToMany(fetch = FetchType.EAGER, cascade =  {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-    @JoinTable(name = "stock_and_possessions",
+    @JoinTable(name = "stocks_and_possessions",
             joinColumns = @JoinColumn(name = "stock_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "user_stock_id", referencedColumnName = "id"))
+            inverseJoinColumns = @JoinColumn(name = "possession_id", referencedColumnName = "id"))
     @ToString.Exclude
     List<Possession> userStocks = new ArrayList<>();
 

@@ -97,26 +97,26 @@ public class HomeController {
 
     @GetMapping("/login")
     public String loginPageValidation(Model model) {
-        model.addAttribute("user", new User());
+//        model.addAttribute("user", new User());
         log.warn("/login: I am in login page");
 
         return "login";
     }
 
     // verifies if email and password exist within database, if so login
-    @PostMapping("/login/process")
-    public String loginProcess(@ModelAttribute("user") User user) {
-        Optional<User> confirmUser = userRepoI.findByEmailAndPassword(user.getEmail(), user.getPassword());
-
-        if (confirmUser == null) {
-            log.warn("/login: user" + confirmUser.get().getEmail() + "has successfully logged in");
-
-            return "/login: user login was not successful, user was null";
-        } else {
-            log.warn("/login: user" + confirmUser.get().getEmail() + "has successfully logged in");
-            return "redirect:/user/dashboard";
-        }
-    }
+//    @PostMapping("/login/process")
+//    public String loginProcess(@ModelAttribute("user") User user) {
+//        Optional<User> confirmUser = userRepoI.findByEmailAndPassword(user.getEmail(), user.getPassword());
+//
+//        if (confirmUser == null) {
+//            log.warn("/login: user" + confirmUser.get().getEmail() + "has successfully logged in");
+//
+//            return "/login: user login was not successful, user was null";
+//        } else {
+//            log.warn("/login: user" + confirmUser.get().getEmail() + "has successfully logged in");
+//            return "redirect:/user/dashboard";
+//        }
+//    }
 
 //    @PostMapping("/login/processing")
 //    public String loginProcess(@ModelAttribute("user") User user,
@@ -143,33 +143,50 @@ public class HomeController {
         return "signup";
     }
 
+    // OG one with attempts to fix it, commented out
+//    @PostMapping("/signup")
+//    public String userProcess(@ModelAttribute("user") User user,
+//                                  @RequestParam("street") String street,
+//                                  @RequestParam("state") String state,
+//                                  @RequestParam("zip") int zip) {
+//        // this works, but won't login new user
+//        user = userServices.createOrUpdate(user);
+//        userServices.addOrUpdateAddress(new Address(street, state, zip), user);
+//
+//        // changed to createOrUpdateRunning and added createAuthRunning
+////        user = userServices.createOrUpdateRunning(user);
+////        user = userServices.addOrUpdateAddress(new Address(street, state, zip), user);
+////        user = userServices.createAuthRunning(user);
+//        //appUserDetailService.loadUserByUsername(user.getEmail());
+//
+//
+//
+//
+//
+//        // This might not have been the bestway
+////        AuthGroup newAuth = new AuthGroup(user.getEmail(), "ROLE_USER");
+////        authGroupRepoI.save(newAuth);
+//
+////        Address ua = new Address(street, state, zip);
+////        addressRepoI.saveAndFlush(ua);
+////        user.setAddress(ua);
+////        userRepoI.save(user);
+//
+//        log.warn("/signup: user successfully signed up");
+//        log.warn(user.toString());
+//        return "redirect:/login";
+//    }
+
     @PostMapping("/signup")
     public String userProcess(@ModelAttribute("user") User user,
-                                  @RequestParam("street") String street,
-                                  @RequestParam("state") String state,
-                                  @RequestParam("zip") int zip) {
+                              @RequestParam("street") String street,
+                              @RequestParam("state") String state,
+                              @RequestParam("zip") int zip) {
         // this works, but won't login new user
-        user = userServices.createOrUpdate(user);
+        user = userServices.createOrUpdateRunning(user);
         user = userServices.addOrUpdateAddress(new Address(street, state, zip), user);
-
-        // changed to createOrUpdateRunning and added createAuthRunning
-//        user = userServices.createOrUpdateRunning(user);
-//        user = userServices.addOrUpdateAddress(new Address(street, state, zip), user);
-//        user = userServices.createAuthRunning(user);
-        //appUserDetailService.loadUserByUsername(user.getEmail());
-
-
-
-
-
-        // This might not have been the bestway
-//        AuthGroup newAuth = new AuthGroup(user.getEmail(), "ROLE_USER");
-//        authGroupRepoI.save(newAuth);
-
-//        Address ua = new Address(street, state, zip);
-//        addressRepoI.saveAndFlush(ua);
-//        user.setAddress(ua);
-//        userRepoI.save(user);
+        AuthGroup newAuth = new AuthGroup(user.getEmail(), "ROLE_USER");
+        authGroupRepoI.saveAndFlush(newAuth);
 
         log.warn("/signup: user successfully signed up");
         log.warn(user.toString());

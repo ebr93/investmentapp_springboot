@@ -69,8 +69,8 @@ public class MyCommandLineRunner implements CommandLineRunner {
         User user3 = new User("Bob", "Smith", "bobsmith@example.com", "Hello1234!");
         User user4 = new User("Alice", "Johnson", "alicejohnson@example.com", "Hello1234!");
         User user5 = new User("Sam", "Brown", "sambrown@example.com", "Hello1234!");
-        user1.setPassword(user1.getPassword());
-        user2.setPassword(user2.getPassword());
+//        user1.setPassword(user1.getPassword());
+//        user2.setPassword(user2.getPassword());
 //        user3.setPassword(user3.getPassword());
 //        user4.setPassword(user4.getPassword());
 //        user5.setPassword(user5.getPassword());
@@ -192,27 +192,27 @@ public class MyCommandLineRunner implements CommandLineRunner {
         possessionServices.createOrUpdate(us8);
         possessionServices.createOrUpdate(us9);
         possessionServices.createOrUpdate(us0);
-        userServices.savePossessionToUser(us1);
-        userServices.savePossessionToUser(us2);
-        userServices.savePossessionToUser(us3);
-        userServices.savePossessionToUser(us4);
-        userServices.savePossessionToUser(us5);
-        userServices.savePossessionToUser(us6);
-        userServices.savePossessionToUser(us7);
-        userServices.savePossessionToUser(us8);
-        userServices.savePossessionToUser(us9);
-        userServices.savePossessionToUser(us0);
-        stockServices.savePositionToStock(us1.getStock().getId(), us1.getId());
-        stockServices.savePositionToStock(us2.getStock().getId(), us2.getId());
-        stockServices.savePositionToStock(us3.getStock().getId(), us3.getId());
-        stockServices.savePositionToStock(us4.getStock().getId(), us4.getId());
-        stockServices.savePositionToStock(us5.getStock().getId(), us5.getId());
-        stockServices.savePositionToStock(us6.getStock().getId(), us6.getId());
-        stockServices.savePositionToStock(us7.getStock().getId(), us7.getId());
-        stockServices.savePositionToStock(us8.getStock().getId(), us8.getId());
-        stockServices.savePositionToStock(us9.getStock().getId(), us9.getId());
-        stockServices.savePositionToStock(us0.getStock().getId(), us0.getId());
-
+//        userServices.savePossessionToUser(us1);
+//        userServices.savePossessionToUser(us2);
+//        userServices.savePossessionToUser(us3);
+//        userServices.savePossessionToUser(us4);
+//        userServices.savePossessionToUser(us5);
+//        userServices.savePossessionToUser(us6);
+//        userServices.savePossessionToUser(us7);
+//        userServices.savePossessionToUser(us8);
+//        userServices.savePossessionToUser(us9);
+//        userServices.savePossessionToUser(us0);
+//        stockServices.savePositionToStock(us1.getStock().getId(), us1.getId());
+//        stockServices.savePositionToStock(us2.getStock().getId(), us2.getId());
+//        stockServices.savePositionToStock(us3.getStock().getId(), us3.getId());
+//        stockServices.savePositionToStock(us4.getStock().getId(), us4.getId());
+//        stockServices.savePositionToStock(us5.getStock().getId(), us5.getId());
+//        stockServices.savePositionToStock(us6.getStock().getId(), us6.getId());
+//        stockServices.savePositionToStock(us7.getStock().getId(), us7.getId());
+//        stockServices.savePositionToStock(us8.getStock().getId(), us8.getId());
+//        stockServices.savePositionToStock(us9.getStock().getId(), us9.getId());
+//        stockServices.savePositionToStock(us0.getStock().getId(), us0.getId());
+//
 
 
     }

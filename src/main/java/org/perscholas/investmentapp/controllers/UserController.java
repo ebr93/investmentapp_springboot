@@ -7,10 +7,7 @@ import org.perscholas.investmentapp.dao.PossessionRepoI;
 import org.perscholas.investmentapp.dao.StockRepoI;
 import org.perscholas.investmentapp.dao.UserRepoI;
 import org.perscholas.investmentapp.dto.StockDTO;
-import org.perscholas.investmentapp.models.AuthGroup;
-import org.perscholas.investmentapp.models.Possession;
-import org.perscholas.investmentapp.models.Stock;
-import org.perscholas.investmentapp.models.User;
+import org.perscholas.investmentapp.models.*;
 import org.perscholas.investmentapp.security.AppUserPrincipal;
 import org.perscholas.investmentapp.services.PossessionServices;
 import org.perscholas.investmentapp.services.StockServices;
@@ -109,7 +106,9 @@ class UserController {
         Stock stock = stockRepoI.findByTicker(ticker).get();
         Possession possession = new Possession(shares, user, stock);
 
-        possessionServices.createOrUpdate(possession, user, stock);
+        // OG
+//        possessionServices.createOrUpdate(possession, user, stock);
+        possessionServices.createOrUpdate(possession);
         log.warn("user/dashboard/addstock: stock has been added to user " + user.getEmail());
 
         return "redirect:/user/dashboard";
@@ -119,7 +118,6 @@ class UserController {
     public String portfolio(@ModelAttribute("currentUser") User user,
                                 Model model,
                                 HttpSession http) throws Exception {
-        log.warn("the value of CurrentUser is " + user.toString());
         log.warn("the attr of session theStudent in model is " + http.getAttribute("currentUser"));
 
         if (user != null) {
@@ -148,7 +146,10 @@ class UserController {
         Stock stock = stockRepoI.findByTicker(ticker).get();
         Possession possession = new Possession(shares, user, stock);
 
-        possessionServices.createOrUpdate(possession, user, stock);
+//      OG
+//        possessionServices.createOrUpdate(possession, user, stock);
+        possessionServices.createOrUpdate(possession);
+
         log.warn("user/portfolio/edit: possession has been edited for " + user.getEmail());
 
         return "redirect:/user/portfolio";
@@ -163,7 +164,7 @@ class UserController {
             log.warn("/user/portfolio/delete: " + user);
             log.warn("/user/portfolio/delete: " + user.getEmail());
 
-            System.out.println(ticker.toString());
+            //System.out.println(ticker.toString());
 
             Stock stock = stockRepoI.findByTicker(ticker).get();
 
@@ -175,6 +176,34 @@ class UserController {
             throw new Exception("/user/portfolio : Principal was not an instance of AppUserPrincipal");
         }
     }
+
+    @GetMapping("/account")
+    public String account(@ModelAttribute("currentUser") User user,
+                            Model model) throws Exception {
+        if (user != null) {
+            log.warn("/user/account: CurrentUser is not null, email is " + user.getEmail());
+            model.addAttribute("editUser", new User());
+        } else {
+            throw new Exception("/user/account: currentUser is not logged in");
+        }
+        return "useraccount";
+    }
+
+    @PostMapping("/account/edit")
+    public String editAccount(@ModelAttribute("currentUser") User user,
+                              @ModelAttribute("editUser") User editUser) throws Exception {
+        if (editUser != null) {
+            log.warn("/user/account/edit: CurrentUser is not null, email is " + user.getEmail());
+            editUser.setEmail(user.getEmail());
+            userServices.createOrUpdate(editUser);
+            log.warn("/user/account/edit: User was updated");
+        } else {
+            throw new Exception("/user/account: currentUser is not logged in");
+        }
+        return "redirect:/user/account";
+    }
+
+
 
 //    @GetMapping("/portfolio/{id}")
 //    public String getUserWithID(@PathVariable(name = "id") int id,
