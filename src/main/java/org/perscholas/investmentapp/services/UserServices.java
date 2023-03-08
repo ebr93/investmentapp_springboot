@@ -44,15 +44,19 @@ public class UserServices {
     public User createOrUpdate(User user) {
         Optional<User> userOptional = userRepoI.findByEmailAllIgnoreCase(user.getEmail());
 
-        if (userOptional.isPresent()) {
-            log.debug("UserServices: user with email " + user.getEmail() + " already exists");
+        if (userOptional.isPresent() || user.getId() != null) {
+            log.debug("createOrUpdate(): user with email " + user.getEmail() + " already exists");
             User originalUser = userOptional.get();
+
             originalUser.setFirstName(user.getFirstName());
             originalUser.setLastName(user.getLastName());
+            originalUser.setEmail(user.getEmail());
+
+            log.debug("createOrUpdate(): user with email " + user.getEmail() + " already exists");
 
             return userRepoI.save(originalUser);
         } else {
-            log.debug("UserServices: user with email " + user.getEmail() + " has been created");
+            log.debug("createOrUpdate(): user with email " + user.getEmail() + " has been created");
 
 //            user.setPassword(user.getPassword());
 
@@ -63,6 +67,33 @@ public class UserServices {
         }
     }
 
+    public User createOrUpdate(User user, User editUser) {
+        Optional<User> userOptional = userRepoI.findByEmailAllIgnoreCase(user.getEmail());
+
+        if (userOptional.isPresent() || user.getId() != null) {
+            log.debug("createOrUpdate(): user with email " + user.getEmail() + " already exists");
+            User originalUser = userOptional.get();
+
+            originalUser.setFirstName(editUser.getFirstName());
+            originalUser.setLastName(editUser.getLastName());
+            originalUser.setEmail(editUser.getEmail());
+
+            log.debug("createOrUpdate(): user with email " + user.getEmail() + " already exists");
+
+            return userRepoI.save(originalUser);
+        } else {
+            log.debug("createOrUpdate(): user with email " + user.getEmail() + " has been created");
+
+//            user.setPassword(user.getPassword());
+
+            AuthGroup newAuth = new AuthGroup(user.getEmail(), "ROLE_USER");
+            authGroupRepoI.save(newAuth);
+
+            return userRepoI.save(user);
+        }
+    }
+
+    // probably just have to make this one a create only, for /signup
     public User createOrUpdateRunning(User user) {
         Optional<User> userOptional = userRepoI.findByEmailAllIgnoreCase(user.getEmail());
 
@@ -71,6 +102,8 @@ public class UserServices {
             User originalUser = userOptional.get();
             originalUser.setFirstName(user.getFirstName());
             originalUser.setLastName(user.getLastName());
+
+//            originalUser.setEmail(user.getEmail());
 
             return userRepoI.save(originalUser);
         } else {
@@ -93,7 +126,7 @@ public class UserServices {
 //    }
 
     public User addOrUpdateAddress(Address address, User user) {
-        Optional<Address> addressOptional = Optional.ofNullable(user.getAddress());
+        Optional<Address> addressOptional = addressRepoI.findById(address.getId());
         if (addressOptional.isPresent()) {
             Address originalAddress = addressOptional.get();
             originalAddress.setStreet(address.getStreet());
@@ -109,37 +142,6 @@ public class UserServices {
             userRepoI.save(user);
 
             return user;
-        }
-    }
-
-
-    // DELETE HAVE BETTER IMPLEMENTATION
-//    public List<Possession> savePositionToUser(String email, int possessionId) throws Exception {
-//        if(userRepoI.findByEmailAllIgnoreCase(email).isPresent() && possessionRepoI.findById(possessionId).isPresent()) {
-//            User user = userRepoI.findByEmailAllIgnoreCase(email).get();
-//            Possession possession = possessionRepoI.findById(possessionId).get();
-//            user.addPossession(possession);
-//
-//            user = userRepoI.saveAndFlush(user);
-//
-//            return user.getUserPossessions();
-//        } else {
-//            throw new Exception("saving a possession to the user " + email + " did not go well!!!!!");
-//        }
-//    }
-
-    public User savePossessionToUser(Possession possession) throws Exception {
-        Optional<User> optionalUser = userRepoI.findByEmailAllIgnoreCase(possession.getUser().getEmail());
-        if(optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            user.addPossession(possession);
-
-            //originally I had saveAndFlush, might just return here instead
-            user = userRepoI.save(user);
-
-            return user;
-        } else {
-            throw new Exception("saving a possession to the user " + possession.getUser().getEmail() + " did not go well!!!!!");
         }
     }
 
@@ -173,6 +175,4 @@ public class UserServices {
         }
     }
 
-//    public List<StockDTO> retrievePortfolio(String email) throws Exception {
-//    }
 }

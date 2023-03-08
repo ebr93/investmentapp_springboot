@@ -1,6 +1,7 @@
 package org.perscholas.investmentapp;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.actuate.autoconfigure.wavefront.WavefrontProperties;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
@@ -14,6 +15,7 @@ public class InvestmentappApplication {
 		} catch (Throwable ex) {
 			ex.printStackTrace();
 		}
+
 	}
 
 }

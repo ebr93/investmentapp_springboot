@@ -66,12 +66,12 @@
               <td th:text="${user.firstName}">Mark</td>
               <td th:text="${user.lastName}">Otto</td>
               <td th:text="${user.email}">@mdo</td>
-              <td>
-                <span th:each="address: ${user.address}">
+              <td th:text="${user.address}">
+                <!-- <span th:text="{user.address}">
                   <span th:text="${address.street}">,</span>
                   <span th:text="${address.state}">,</span>
-                  <span th:text="${address.zipcode}"></span>
-                </span>
+                  <span th:text="${address.zipcode}"></span> -->
+                </span> -->
               </td>
             </tr>
           </tbody>
@@ -82,83 +82,92 @@
 
     <!-- th:object="${updateUser}"  -->
 
-    <!-- Update Form-->
+    <!--User Update Form-->
     <div class="col-12 col-md-10">
       <!-- Form, this form allows to add new users -->
       <form method="post" th:action="@{/user/account/edit}" 
       class="row g-3 needs-validation signup-validation">
-          <div class="col-md-6">
-              <label for="fName" class="form-label">First name</label>
-              <input type="text" class="form-control" id="fName" 
-              th:field="*{firstName}" 
-              th:object="${currentUser}"
-              required>
+        <div class="col-md-8">
+          <label for="fName" class="form-label">First name</label>
+          <input type="text" class="form-control" id="fName" 
+          th:field="*{firstName}" 
+          th:object="${editUser}"
+          required>
 
-          </div>
-          <div class="col-md-6">
-              <label for="lName" class="form-label">Last name</label>
-              <input type="text" class="form-control" id="lName" 
-              th:field="*{lastName}" 
-              th:object="${currentUser}"
-              required>
+        </div>
+        <div class="col-md-8">
+          <label for="lName" class="form-label">Last name</label>
+          <input type="text" class="form-control" id="lName" 
+          th:field="*{lastName}" 
+          th:object="${editUser}"
+          required>
 
-          </div>
-          <div class="col-md-8">
-              <label for="newEmail" class="form-label">Email</label>
-              <input type="email" class="form-control" id="newEmail" 
-              th:field="*{email}" 
-              th:object="${currentUser}"
-              required>
+        </div>
+        <div class="col-md-8">
+          <label for="newEmail" class="form-label">Email</label>
+          <input type="email" class="form-control" id="newEmail" 
+          th:field="*{email}" 
+          th:object="${editUser}"
+          required>
+        </div>
 
-          </div>
-
-          <div class="col-md-6">
-              <label for="createPassword" class="form-label">Password</label>
-              <input type="password" class="form-control" id="createPassword" min="8" pattern="(?=^.{8,}$)(?=.*\d)(?=.*[!@#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" 
-              th:field="*{password}" 
-              th:object="${currentUser}"
-              required>
-
-          </div>
-
-          <div class="col-12">
-              <a th:href="@{/user/account}"><button class="btn btn-primary" id="signupBttn" type="submit">Submit form</button></a>
-          </div>
+        <div class="col-12">
+          <button class="btn btn-primary" id="signupBttn" type="submit">Submit form</button>
+        </div>
       </form>
   </div>
 
+  <!--Password Update Form-->
   <div class="col-12 col-md-10">
-    <form action="">
+    <!-- Form, this form allows to add new users -->
+    <form method="post" th:action="@{/user/account/edit}" class="row g-3 needs-validation signup-validation">
+      <div class="col-md-6">
+        <label for="createPassword" class="form-label">Password</label>
+        <input type="password" class="form-control" id="createPassword" min="8" pattern="(?=^.{8,}$)(?=.*\d)(?=.*[!@#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" 
+        th:field="*{password}" 
+        th:object="${editUser}"
+        required>
+      </div>
+      <div class="col-12">
+          <a th:href="@{/user/account}"><button class="btn btn-primary" id="signupBttn" type="submit">Submit form</button></a>
+      </div>
+    </form>
+  </div>
 
+  <!--Address Update Form-->
+  <div class="col-12 col-md-10">
+    <form action="" class="row g-3 needs-validation signup-validation"
+      method="post" th:action="@{/user/account/edit_address}">
       <div class="col-md-6">
         <label for="streetAddress" class="form-label">Street Address</label>
-        <input type="text" class="form-control" id="streetAddress" name="street" required>
-        <!--
-        <div class="invalid-feedback">
-          A valid zip number must contain 5 digits
-        </div>
-        -->
-    </div>
+        <input type="text" class="form-control" id="streetAddress" name="street" 
+        th:field="*{street}" 
+        th:object="${editAddress}"
+        required>
+        
+      </div>
 
-    <div class="col-md-3">
+      <div class="col-12 col-md-3">
         <label for="stateAddress" class="form-label">State</label>
-        <input type="text" class="form-control" id="stateAddress" name="state" required>
-        <!--
-        <div class="invalid-feedback">
-          A valid zip number must contain 5 digits
-        </div>
-        -->
-    </div>
+        <input type="text" class="form-control" id="stateAddress" name="state" 
+        th:field="*{state}" 
+        th:object="${editAddress}"
+        required>
+        
+      </div>
 
-    <div class="col-md-3">
+      <div class="col-12 col-md-3">
         <label for="zipcode" class="form-label">Zipcode</label>
-        <input type="text" class="form-control" id="zipcode" name="zip" required>
-        <!--
-        <div class="invalid-feedback">
-          A valid zip number must contain 5 digits
-        </div>
-        -->
-    </div>
+        <input type="text" class="form-control" id="zipcode" name="zip" max="5" 
+        th:field="*{zipcode}" 
+        th:object="${editAddress}"
+        required>
+
+      </div>
+
+      <div class="col-12">
+        <a th:href="@{/user/account}"><button class="btn btn-primary" id="signupBttn" type="submit">Submit form</button></a>
+      </div>
 
     </form>
   </div>

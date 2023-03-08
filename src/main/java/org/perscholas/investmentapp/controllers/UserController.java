@@ -1,11 +1,9 @@
 package org.perscholas.investmentapp.controllers;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
-import org.perscholas.investmentapp.dao.AddressRepoI;
-import org.perscholas.investmentapp.dao.PossessionRepoI;
-import org.perscholas.investmentapp.dao.StockRepoI;
-import org.perscholas.investmentapp.dao.UserRepoI;
+import org.perscholas.investmentapp.dao.*;
 import org.perscholas.investmentapp.dto.StockDTO;
 import org.perscholas.investmentapp.models.*;
 import org.perscholas.investmentapp.security.AppUserPrincipal;
@@ -17,7 +15,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @Slf4j
@@ -25,6 +25,7 @@ import java.util.List;
 @RequestMapping("/user")
 // @SessionAttributes(value = {"msg"})
 class UserController {
+    private final AuthGroupRepoI authGroupRepoI;
     private final AddressRepoI addressRepoI;
     private final UserRepoI userRepoI;
     private final StockRepoI stockRepoI;
@@ -37,7 +38,8 @@ class UserController {
     public UserController(AddressRepoI addressRepoI, UserRepoI userRepoI,
                           StockRepoI stockRepoI, PossessionRepoI possessionRepoI,
                           UserServices userServices, StockServices stockServices,
-                          PossessionServices possessionServices) {
+                          PossessionServices possessionServices,
+                          AuthGroupRepoI authGroupRepoI) {
         this.addressRepoI = addressRepoI;
         this.userRepoI = userRepoI;
         this.stockRepoI = stockRepoI;
@@ -45,6 +47,7 @@ class UserController {
         this.userServices = userServices;
         this.stockServices = stockServices;
         this.possessionServices = possessionServices;
+        this.authGroupRepoI = authGroupRepoI;
     }
 
 
@@ -180,9 +183,19 @@ class UserController {
     @GetMapping("/account")
     public String account(@ModelAttribute("currentUser") User user,
                             Model model) throws Exception {
+//        Optional<User> editUser = userRepoI.findByEmail(user.getEmail());
+//        if (user != null && dbUser.isPresent()) {
         if (user != null) {
             log.warn("/user/account: CurrentUser is not null, email is " + user.getEmail());
-            model.addAttribute("editUser", new User());
+//            model.addAttribute("editUser", new User());
+            User editUser = new User();
+            editUser.setFirstName(user.getFirstName());
+            editUser.setLastName(user.getLastName());
+            editUser.setEmail(user.getEmail());
+            model.addAttribute("editUser", editUser);
+            Address editAddress = addressRepoI.findById(user.getAddress().getId()).get();
+            model.addAttribute("editAddress", editAddress);
+
         } else {
             throw new Exception("/user/account: currentUser is not logged in");
         }
@@ -191,39 +204,50 @@ class UserController {
 
     @PostMapping("/account/edit")
     public String editAccount(@ModelAttribute("currentUser") User user,
-                              @ModelAttribute("editUser") User editUser) throws Exception {
-        if (editUser != null) {
-            log.warn("/user/account/edit: CurrentUser is not null, email is " + user.getEmail());
-            editUser.setEmail(user.getEmail());
-            userServices.createOrUpdate(editUser);
-            log.warn("/user/account/edit: User was updated");
+                              @ModelAttribute("editUser") User editUser,
+                              HttpServletRequest request) throws Exception {
+        Principal p = request.getUserPrincipal();
+        log.warn("/user/account/edit: editUser is not null, info is " + editUser);
+
+        User principalUser = null;
+        if (editUser != null && p != null) {
+//        if (editUser != null) {
+            principalUser = userRepoI.findByEmail(p.getName()).get();
+            log.warn("/user/account/edit: CurrentUser(principal) is not null, email is " + principalUser.getEmail());
+//            editUser.setEmail(user.getEmail());
+            log.warn("/user/account/edit: editUser is not null, info is " + editUser);
+            List<AuthGroup> authGroupList = authGroupRepoI.findByEmail(principalUser.getEmail());
+
+            //authGroupRepoI.findByEmail(user.getEmail()).get(0).setEmail(editUser.getEmail());
+
+            AuthGroup userAuth = authGroupList.get(0);
+            userAuth.setEmail(editUser.getEmail());
+            authGroupRepoI.saveAndFlush(userAuth);
+
+            editUser = userServices.createOrUpdate(principalUser,editUser);
+
+            user.setFirstName(editUser.getFirstName());
+            user.setLastName(editUser.getLastName());
+            user.setEmail(editUser.getLastName());
+
+            log.warn("/user/account/edit: User " + editUser.getEmail() + " was updated");
+            log.warn("/user/account/edit: Session user " + user.getEmail() + " was updated");
+
         } else {
-            throw new Exception("/user/account: currentUser is not logged in");
+            throw new Exception("/user/account/edit: currentUser is not logged in");
+        }
+        return "redirect:/logout";
+    }
+
+    @PostMapping("/account/edit_address")
+    public String editAddress(@ModelAttribute("currentUser") User user,
+                              @ModelAttribute("editAddress") Address editAddress) throws Exception {
+        if (editAddress != null && user != null) {
+            log.warn("/user/account/edit_address: editAddress is not null, info is " + editAddress + " id: " + editAddress.getId());
+            userServices.addOrUpdateAddress(editAddress, user);
+        } else {
+            throw new Exception("/user/account/edit_address: editAddress was null");
         }
         return "redirect:/user/account";
     }
-
-
-
-//    @GetMapping("/portfolio/{id}")
-//    public String getUserWithID(@PathVariable(name = "id") int id,
-//                                Model model) {
-//        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        if (principal instanceof AuthGroup) {
-//
-//        }
-//
-//        log.warn(String.valueOf(id));
-//        log.warn(userRepoI.findById(id).toString());
-//        User user = userRepoI.findById(id).get();
-//        model.addAttribute("currenUser", user);
-//
-//        List<StockDTO> allStocks = stockServices.allStocks();
-//
-//        model.addAttribute("allStocks", allStocks);
-//        allStocks.forEach((s) -> System.out.println(s));
-//
-//        return "userportfolio";
-//    }
-
 }

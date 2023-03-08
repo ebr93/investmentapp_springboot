@@ -143,40 +143,6 @@ public class HomeController {
         return "signup";
     }
 
-    // OG one with attempts to fix it, commented out
-//    @PostMapping("/signup")
-//    public String userProcess(@ModelAttribute("user") User user,
-//                                  @RequestParam("street") String street,
-//                                  @RequestParam("state") String state,
-//                                  @RequestParam("zip") int zip) {
-//        // this works, but won't login new user
-//        user = userServices.createOrUpdate(user);
-//        userServices.addOrUpdateAddress(new Address(street, state, zip), user);
-//
-//        // changed to createOrUpdateRunning and added createAuthRunning
-////        user = userServices.createOrUpdateRunning(user);
-////        user = userServices.addOrUpdateAddress(new Address(street, state, zip), user);
-////        user = userServices.createAuthRunning(user);
-//        //appUserDetailService.loadUserByUsername(user.getEmail());
-//
-//
-//
-//
-//
-//        // This might not have been the bestway
-////        AuthGroup newAuth = new AuthGroup(user.getEmail(), "ROLE_USER");
-////        authGroupRepoI.save(newAuth);
-//
-////        Address ua = new Address(street, state, zip);
-////        addressRepoI.saveAndFlush(ua);
-////        user.setAddress(ua);
-////        userRepoI.save(user);
-//
-//        log.warn("/signup: user successfully signed up");
-//        log.warn(user.toString());
-//        return "redirect:/login";
-//    }
-
     @PostMapping("/signup")
     public String userProcess(@ModelAttribute("user") User user,
                               @RequestParam("street") String street,
@@ -186,6 +152,7 @@ public class HomeController {
         user = userServices.createOrUpdateRunning(user);
         user = userServices.addOrUpdateAddress(new Address(street, state, zip), user);
         AuthGroup newAuth = new AuthGroup(user.getEmail(), "ROLE_USER");
+
         authGroupRepoI.saveAndFlush(newAuth);
 
         log.warn("/signup: user successfully signed up");
