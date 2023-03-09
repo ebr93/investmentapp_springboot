@@ -2,147 +2,13 @@
 //import orderAPI from './marketAPIFetch.js';
 //import intList from './investmentsArray';
 
-const numberArray = [];
-
-
-const addRandomNumber = () => {
-  const num = Math.floor(Math.random() * 1000);
-  numberArray.push(num);
-}
-
-class User {
-  constructor(fname, lname, email, zip, password) {
-    this.fName = fname;
-    this.lName = lname;
-    this.email = email;
-    this.zip = zip;
-    this.password = password;
-  }
-}
-
-const usersDatabase = (() => {
-  const addUser = (u) => {
-    if (u instanceof User === false) {
-      return;
-    }
-    // users.push(u);
-    localStorage.setItem(u.email, JSON.stringify(u));
-  }
-
-  const getUser = (email) => {
-    const user = JSON.parse(localStorage.getItem(email));
-    console.log(user.fName, user.lName, user.email, user.password);
-    // const u = new User(user.fName, user.lName, user.email, user.password);
-    return user;
-  }
-
-  const deleteUser = (email) => {
-    localStorage.removeItem(email);
-  }
-
-  return {
-    addUser,
-    getUser,
-    deleteUser
-  }
-})()
-
-// login validatioon for website
-const userLoginValidation = (userEmail, userPassword) => {
-  const u = usersDatabase.getUser(userEmail);
-  console.log(u.password);
-  console.log(userPassword);
-
-  if (u === null || u.password !== userPassword || u.password === undefined || userPassword === '') {
-    return false;
-  } else {
-    currentUser.setCurrentUser(u);
-    return true;
-  }
-}
-
-const userLogOff = () => {
-
-}
-
-// let's webpage know which user is logged in
-const currentUser = (() => {
-  const setCurrentUser = (u) => {
-    localStorage.setItem('currentUser', JSON.stringify(u));
-  }
-
-  const userLogOff = () => {
-    const visitor = new User('Visitor', '', 'upchh@example.com', '12345','12345');
-    localStorage.setItem('currentUser', JSON.stringify(visitor));
-  }
-
-  const getCurrentUser = () => {
-    const user = JSON.parse(localStorage.getItem('currentUser'));
-    return user;
-  }
-
-  return {
-    setCurrentUser,
-    userLogOff,
-    getCurrentUser
-  }
-})()
-
 // Event Listeners for Dashboard
 const dashListeners = (() => {
   const dash = document.querySelector('#main-dashboard');
-  if (dash!== null) {
-    const divLeft = document.querySelector('#dash-left');
-    const divRight = document.querySelector('#dash-right');
-    const divTop = document.querySelector('#dash-top');
+  if (dash !== null) {
+
     const stockButtons = document.querySelectorAll('.stock-add-btn');
     const tradedStock = document.querySelector('#traded-stock');
-
-    const addBttn = document.querySelector('#addBttn');
-    const stocksBttn = document.querySelector('#fetch-stocks');
-
-    const numContainer = document.querySelector('#num-container');
-
-
-    const loginTab = document.querySelector('#dash-tab-login');
-    const signupTab = document.querySelector('#dash-tab-signup');
-
-    /* Welcome Visitor || Welcome UserName
-    window.addEventListener('load', () => {
-      //console.log(`${currentUser.obj.value.fName} ${currentUser.obj.value.lName} logged in`);
-      console.log(`${currentUser.getCurrentUser().fName} ${currentUser.getCurrentUser().lName} logged in`);
-      const newPar = document.createElement('p');
-      newPar.className = ('class col-12 d-flex justify-content-end align-items-center');
-
-      const user = currentUser.getCurrentUser();
-      newPar.innerText = `Welcome ${user.fName} ${user.lName}`;
-      divTop.appendChild(newPar);
-
-      if (user.fName !== 'Visitor') {
-        loginTab.innerText = `${user.fName}`;
-        loginTab.href = '#';
-
-        signupTab.innerText = `Logout`;
-        signupTab.parentElement.href = 'dashboard.html';
-      }
-    });
-    */
-
-    // // logs off user when LoggOff tab is clicked
-    // signupTab.addEventListener('click', () => {
-    //   currentUser.userLogOff();
-    // });
-
-    // addBttn.addEventListener('click', () => {
-    //   addRandomNumber();
-
-    //   const lastNum = numberArray[numberArray.length - 1];
-    //   const newLi = document.createElement('li');
-    //   newLi.className = ('col-3');
-    //   newLi.innerText = `${lastNum}`;
-    //   numContainer.appendChild(newLi);
-    //   console.log(`Printing Array:\n${numberArray}`);
-    // });
 
     // stocksBttn.addEventListener('click', () => {
     //   orderAPI.getQuote().then(respone => {
@@ -163,8 +29,23 @@ const dashListeners = (() => {
   }
 })()
 
+// Event Listeners for Dashboard
+const adminListeners = (() => {
+  const admin = document.querySelector('#admin-dashboard');
+  if (admin!== null) {
 
-// Event Listeners for Login Forms
+    stockButtons.forEach(stockButton => 
+      stockButton.addEventListener('click', (e) => {
+        console.log('this clicked');
+        console.log(e.target.id);
+        tradedStock.value = e.target.id;
+      })
+    ) 
+  }
+})()
+
+
+// Event Listeners for Login Form
 const loginForm = (() => {
   const loginVal = document.querySelector('.login-validation');
   // console.log(loginVal);
@@ -221,7 +102,7 @@ const loginForm = (() => {
 })()
 
 
-// Event Listeners for SignUp Forms
+// Event Listeners for SignUp Form
 const signupForm = (() => {
   const signupVal = document.querySelector('.signup-validation');
   if (signupVal !== null) {

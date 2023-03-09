@@ -51,7 +51,7 @@ public class MyCommandLineRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Address address1 = new Address("123 Main St", "CA", 90210);
+        Address address1 = new Address("123 Main St", "CA", 12345);
         Address address2 = new Address("456 Elm St", "NY", 10001);
         Address address3 = new Address("789 Oak St", "TX", 75001);
         Address address4 = new Address("987 Pine St", "FL", 33428);

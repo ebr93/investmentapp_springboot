@@ -10,6 +10,7 @@ import org.perscholas.investmentapp.security.AppUserPrincipal;
 import org.perscholas.investmentapp.services.PossessionServices;
 import org.perscholas.investmentapp.services.StockServices;
 import org.perscholas.investmentapp.services.UserServices;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,6 +36,7 @@ class UserController {
     private final StockServices stockServices;
     private final PossessionServices possessionServices;
 
+    @Autowired
     public UserController(AddressRepoI addressRepoI, UserRepoI userRepoI,
                           StockRepoI stockRepoI, PossessionRepoI possessionRepoI,
                           UserServices userServices, StockServices stockServices,
@@ -162,7 +164,7 @@ class UserController {
     public String deletePossession(@ModelAttribute("currentUser") User user,
                                  @PathVariable(name="ticker") String ticker) throws Exception {
         if (ticker != null) {
-            log.warn("/user/portfolio/delete: add stock has initialized");
+            log.warn("/user/portfolio/delete: delete stock has initialized");
             log.warn("/user/portfolio/delete: " + ticker);
             log.warn("/user/portfolio/delete: " + user);
             log.warn("/user/portfolio/delete: " + user.getEmail());

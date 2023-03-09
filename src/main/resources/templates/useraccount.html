@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -27,11 +27,12 @@
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="n_bar">
               <ul class="navbar-nav justify-content-end align-items-center">
+
+                <li sec:authorize="hasRole('ADMIN')" class="nav-item active"><a class="nav-link" th:href="@{/admin/users}">Admin</a></li>
+
                 <li class="nav-item active"><a class="nav-link" th:href="@{/user/dashboard}">Dashboard</a></li>
                 <li class="nav-item active"><a class="nav-link" th:href="@{/user/portfolio}" id="dash-tab-login">Portfolio</a></li>
-
                 <li class="nav-item active"><a class="nav-link" th:href="@{/user/account}" >User</a></li>
-
                 <li class="nav-item active"><a class="nav-link" th:href="@{/logout}">Logout</a></li>
               </ul>
             </div>
@@ -70,7 +71,7 @@
                 <!-- <span th:text="{user.address}">
                   <span th:text="${address.street}">,</span>
                   <span th:text="${address.state}">,</span>
-                  <span th:text="${address.zipcode}"></span> -->
+                  <span th:text="${address.zipcode}"></span>
                 </span> -->
               </td>
             </tr>
@@ -87,7 +88,7 @@
       <!-- Form, this form allows to add new users -->
       <form method="post" th:action="@{/user/account/edit}" 
       class="row g-3 needs-validation signup-validation">
-        <div class="col-md-8">
+        <div class="col-md-6">
           <label for="fName" class="form-label">First name</label>
           <input type="text" class="form-control" id="fName" 
           th:field="*{firstName}" 
@@ -95,7 +96,7 @@
           required>
 
         </div>
-        <div class="col-md-8">
+        <div class="col-md-6">
           <label for="lName" class="form-label">Last name</label>
           <input type="text" class="form-control" id="lName" 
           th:field="*{lastName}" 
@@ -103,7 +104,7 @@
           required>
 
         </div>
-        <div class="col-md-8">
+        <div class="col-md-6">
           <label for="newEmail" class="form-label">Email</label>
           <input type="email" class="form-control" id="newEmail" 
           th:field="*{email}" 
@@ -112,14 +113,14 @@
         </div>
 
         <div class="col-12">
-          <button class="btn btn-primary" id="signupBttn" type="submit">Submit form</button>
+          <button class="btn btn-primary" id="signupBttn" type="submit">Update</button>
         </div>
       </form>
   </div>
 
   <!--Password Update Form-->
-  <div class="col-12 col-md-10">
-    <!-- Form, this form allows to add new users -->
+  <!-- <div class="col-12 col-md-10">
+    // Form, this form allows to add new users 
     <form method="post" th:action="@{/user/account/edit}" class="row g-3 needs-validation signup-validation">
       <div class="col-md-6">
         <label for="createPassword" class="form-label">Password</label>
@@ -132,7 +133,7 @@
           <a th:href="@{/user/account}"><button class="btn btn-primary" id="signupBttn" type="submit">Submit form</button></a>
       </div>
     </form>
-  </div>
+  </div> -->
 
   <!--Address Update Form-->
   <div class="col-12 col-md-10">
@@ -166,7 +167,7 @@
       </div>
 
       <div class="col-12">
-        <a th:href="@{/user/account}"><button class="btn btn-primary" id="signupBttn" type="submit">Submit form</button></a>
+        <a th:href="@{/user/account}"><button class="btn btn-primary" id="signupBttn" type="submit">Update</button></a>
       </div>
 
     </form>

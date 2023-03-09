@@ -90,6 +90,8 @@ img {
   pointer-events: none;
 }
 
+
+
 @media (max-width: 767px) {
   .image-hero-two {
     height: 250px;
@@ -115,10 +117,19 @@ img {
 }
 
 
+/* .navbar-links {
+  display: none;
+  max-height: none; 
+}
 
+.navbar-links ul {
+  overflow-y: auto; 
+}
 
-
-
+.navbar-brand:hover + .navbar-links {
+  display: block;
+} 
+*/
 
 
 .bd-placeholder-img {

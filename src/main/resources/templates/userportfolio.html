@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -27,11 +27,12 @@
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="n_bar">
               <ul class="navbar-nav justify-content-end align-items-center">
+
+                <li sec:authorize="hasRole('ADMIN')" class="nav-item active"><a class="nav-link" th:href="@{/admin/users}">Admin</a></li>
+
                 <li class="nav-item active"><a class="nav-link" th:href="@{/user/dashboard}">Dashboard</a></li>
                 <li class="nav-item active"><a class="nav-link" th:href="@{/user/portfolio}" id="dash-tab-login">Portfolio</a></li>
-
                 <li class="nav-item active"><a class="nav-link" th:href="@{/user/account}">User</a></li>
-
                 <li class="nav-item active"><a class="nav-link" th:href="@{/logout}">Logout</a></li>
               </ul>
             </div>
