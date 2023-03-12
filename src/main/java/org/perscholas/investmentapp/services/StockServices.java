@@ -10,6 +10,7 @@ import org.perscholas.investmentapp.models.Stock;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,10 +25,33 @@ public class StockServices {
         this.possessionRepoI = possessionRepoI;
     }
 
+    public Stock createOrUpdate(Stock stock) {
+        Optional<Stock> stockOptional =
+                stockRepoI.findByTicker(stock.getTicker());
+        if (stockOptional.isPresent()) {
+            log.warn("createOrUpdate(): stock with ticker " + stock.getTicker() +
+                    " already exists, updating");
+            Stock originalStock = stockOptional.get();
+            originalStock.setStockName(stock.getStockName());
+            originalStock.setPrice(stock.getPrice());
+            originalStock.setDescription(stock.getDescription());
+
+            return stockRepoI.save(originalStock);
+        } else {
+            log.warn("createOrUpdate(): stock with ticker " + stock.getTicker() +
+                    " already exists, updating");
+            return stockRepoI.save(stock);
+        }
+    }
+
     public Stock savePositionToStock(int stockId, int possessionId) throws Exception {
         if(stockRepoI.findById(stockId).isPresent() && possessionRepoI.findById(possessionId).isPresent()) {
             Stock stock = stockRepoI.findById(stockId).get();
             Possession possession = possessionRepoI.findById(possessionId).get();
+
+            log.warn("savePositionToStock(): stock with ticker " + stock.getTicker() +
+                    " updating new possession");
+
             stock.addPossession(possession);
 
             stock = stockRepoI.saveAndFlush(stock);
@@ -41,7 +65,7 @@ public class StockServices {
     public List<StockDTO> allStocks() {
         return stockRepoI.findAll()
                 .stream()
-                .map((stock) -> new StockDTO(stock.getInvestmentName(), stock.getTicker(), stock.getPrice(), stock.getDescription()))
+                .map((stock) -> new StockDTO(stock.getStockName(), stock.getTicker(), stock.getPrice(), stock.getDescription()))
                 .collect(Collectors.toList());
     }
 }

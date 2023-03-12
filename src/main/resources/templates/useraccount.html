@@ -29,10 +29,12 @@
               <ul class="navbar-nav justify-content-end align-items-center">
 
                 <li sec:authorize="hasRole('ADMIN')" class="nav-item active"><a class="nav-link" th:href="@{/admin/users}">Admin</a></li>
+                <li sec:authorize="hasRole('ADMIN')" class="nav-item active"><a class="nav-link" th:href="@{/admin/stocks}">Data</a></li>
+
 
                 <li class="nav-item active"><a class="nav-link" th:href="@{/user/dashboard}">Dashboard</a></li>
                 <li class="nav-item active"><a class="nav-link" th:href="@{/user/portfolio}" id="dash-tab-login">Portfolio</a></li>
-                <li class="nav-item active"><a class="nav-link" th:href="@{/user/account}" >User</a></li>
+                <li class="nav-item active"><a class="nav-link" th:href="@{/user/account}" >Account</a></li>
                 <li class="nav-item active"><a class="nav-link" th:href="@{/logout}">Logout</a></li>
               </ul>
             </div>
@@ -48,6 +50,7 @@
       <pre class="class col-12 d-flex justify-content-end align-items-center">Welcome <span th:object="${currentUser}" th:text="*{firstName}"></span></pre>
     </div>
     <!-- Top User Info-->
+    <h1 class="h3">User Info</h1>
     <div class="p-3 col-11 col-md-12">
       <div>
 
@@ -84,6 +87,7 @@
     <!-- th:object="${updateUser}"  -->
 
     <!--User Update Form-->
+    <h1 class="h3">Edit User</h1>
     <div class="col-12 col-md-10">
       <!-- Form, this form allows to add new users -->
       <form method="post" th:action="@{/user/account/edit}" 
@@ -104,6 +108,7 @@
           required>
 
         </div>
+
         <div class="col-md-6">
           <label for="newEmail" class="form-label">Email</label>
           <input type="email" class="form-control" id="newEmail" 
@@ -136,6 +141,7 @@
   </div> -->
 
   <!--Address Update Form-->
+  <h1 class="h3">Edit Address</h1>
   <div class="col-12 col-md-10">
     <form action="" class="row g-3 needs-validation signup-validation"
       method="post" th:action="@{/user/account/edit_address}">

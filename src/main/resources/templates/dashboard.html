@@ -129,7 +129,7 @@
           <tbody>
             <tr th:each="portfolio: ${userPortfolio}">
               <td th:text="${portfolio.stock.ticker}"></td>
-              <td th:text="${portfolio.stock.investmentName}"></td>
+              <td th:text="${portfolio.stock.stockName}"></td>
               <td th:with="price = ${portfolio.stock.price}">
                 <span th:text="${#numbers.formatDecimal(price, 0, 'COMMA', 2, 'POINT')}"></span>
               </td>

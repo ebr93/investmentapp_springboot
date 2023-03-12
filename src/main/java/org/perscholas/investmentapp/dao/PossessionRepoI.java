@@ -12,4 +12,7 @@ import java.util.Optional;
 public interface PossessionRepoI extends JpaRepository<Possession,Integer> {
     Optional<Possession> findByUserAndStock(User user, Stock stock);
     Optional<List<Possession>> findByUser(User user);
+
+    Optional<List<Possession>> findByStock(Stock stock);
+
 }

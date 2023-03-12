@@ -151,8 +151,6 @@ class UserController {
         Stock stock = stockRepoI.findByTicker(ticker).get();
         Possession possession = new Possession(shares, user, stock);
 
-//      OG
-//        possessionServices.createOrUpdate(possession, user, stock);
         possessionServices.createOrUpdate(possession);
 
         log.warn("user/portfolio/edit: possession has been edited for " + user.getEmail());

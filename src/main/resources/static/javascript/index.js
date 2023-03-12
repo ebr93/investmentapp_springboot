@@ -29,18 +29,31 @@ const dashListeners = (() => {
   }
 })()
 
-// Event Listeners for Dashboard
+// Event Listeners for Admin
 const adminListeners = (() => {
   const admin = document.querySelector('#admin-dashboard');
   if (admin!== null) {
+    const editButtons = document.querySelectorAll('.user-email');
+    const userEmail = document.querySelector('#user-email');
 
-    stockButtons.forEach(stockButton => 
+    const stockButtons = document.querySelectorAll('.stock-edit-btn');
+    const tradedStock = document.querySelector('#traded-stock');
+
+    editButtons.forEach(editButton => 
+      editButton.addEventListener('click', (e) => {
+        console.log('this clicked');
+        console.log(e.target.id);
+        userEmail.value = e.target.id;
+      })
+    )
+    
+    stockButtons.forEach(stockButton =>
       stockButton.addEventListener('click', (e) => {
         console.log('this clicked');
         console.log(e.target.id);
         tradedStock.value = e.target.id;
       })
-    ) 
+    )
   }
 })()
 

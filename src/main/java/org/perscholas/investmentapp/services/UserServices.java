@@ -45,14 +45,16 @@ public class UserServices {
         Optional<User> userOptional = userRepoI.findByEmailAllIgnoreCase(user.getEmail());
 
         if (userOptional.isPresent() || user.getId() != null) {
-            log.debug("createOrUpdate(): user with email " + user.getEmail() + " already exists");
+            log.warn("createOrUpdate(): user with email " + user.getEmail() +
+                    " already exists");
             User originalUser = userOptional.get();
 
             originalUser.setFirstName(user.getFirstName());
             originalUser.setLastName(user.getLastName());
             originalUser.setEmail(user.getEmail());
 
-            log.debug("createOrUpdate(): user with email " + user.getEmail() + " already exists");
+            log.warn("createOrUpdate(): user with email " + user.getEmail() +
+                    " already exists");
 
             return userRepoI.save(originalUser);
         } else {
@@ -163,6 +165,30 @@ public class UserServices {
             return userRepoI.save(confirmedUser);
         } else {
             throw new Exception("removing a possession to the user " + user.getEmail() + " did not go well!!!!!");
+        }
+    }
+
+    public User deletePossesionToUser(Possession possession) throws Exception {
+        Optional<Possession> userPossession =
+                possessionRepoI.findById(possession.getId());
+        Optional<User> optionalUser =
+                userRepoI.findByEmailAllIgnoreCase(possession.getUser().getEmail());
+
+        if(userPossession.isPresent() && optionalUser.isPresent()) {
+
+            User confirmedUser = optionalUser.get();
+            Possession confirmedPossession = userPossession.get();
+            confirmedUser.removePossession(confirmedPossession);
+            possession.getStock().removePossession(confirmedPossession);
+
+            confirmedUser = userRepoI.saveAndFlush(confirmedUser);
+            stockRepoI.saveAndFlush(possession.getStock());
+            possessionRepoI.delete(confirmedPossession);
+
+            return userRepoI.save(confirmedUser);
+        } else {
+            throw new Exception("removing a possession to stock " + possession.getStock().getStockName() + " " +
+                    "did not go well!!!!!");
         }
     }
 

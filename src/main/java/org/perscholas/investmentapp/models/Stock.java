@@ -20,13 +20,13 @@ import java.util.Objects;
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Stock {
-    @Id @NonNull
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     Integer id;
 
     @NonNull
-    @Column(name = "investment_name", length = 45)
-    String investmentName;
+    @Column(name = "stock_name", length = 45)
+    String stockName;
 
     @NonNull
     @Column(name = "ticker", length = 10)
@@ -52,12 +52,12 @@ public class Stock {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Stock stock = (Stock) o;
-        return Objects.equals(investmentName, stock.investmentName) && Objects.equals(ticker, stock.ticker) && Objects.equals(description, stock.description);
+        return Objects.equals(stockName, stock.stockName) && Objects.equals(ticker, stock.ticker) && Objects.equals(description, stock.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(investmentName, ticker, description);
+        return Objects.hash(stockName, ticker, description);
     }
 
     public void addPossession(Possession possession) {

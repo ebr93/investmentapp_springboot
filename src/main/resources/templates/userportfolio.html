@@ -29,10 +29,12 @@
               <ul class="navbar-nav justify-content-end align-items-center">
 
                 <li sec:authorize="hasRole('ADMIN')" class="nav-item active"><a class="nav-link" th:href="@{/admin/users}">Admin</a></li>
+                <li sec:authorize="hasRole('ADMIN')" class="nav-item active"><a class="nav-link" th:href="@{/admin/stocks}">Data</a></li>
+
 
                 <li class="nav-item active"><a class="nav-link" th:href="@{/user/dashboard}">Dashboard</a></li>
                 <li class="nav-item active"><a class="nav-link" th:href="@{/user/portfolio}" id="dash-tab-login">Portfolio</a></li>
-                <li class="nav-item active"><a class="nav-link" th:href="@{/user/account}">User</a></li>
+                <li class="nav-item active"><a class="nav-link" th:href="@{/user/account}">Account</a></li>
                 <li class="nav-item active"><a class="nav-link" th:href="@{/logout}">Logout</a></li>
               </ul>
             </div>
@@ -47,7 +49,8 @@
     <div id="dash-top">
       <pre class="class col-12 d-flex justify-content-end align-items-center">Welcome <span th:object="${currentUser}" th:text="*{firstName}"></span></pre>
     </div>
-    <!-- Top User Info: got rid of id="dash-left"-->
+    <!-- Portfolio -->
+    <h1 class="h3">Portfolio</h1>
     <div class="p-3 col-11 col-md-12">
       <div>
         <table class="table text-bg-dark text-uppercase">
@@ -65,7 +68,7 @@
           <tbody>
             <tr th:each="portfolio: ${userPortfolio}">
               <td th:text="${portfolio.stock.ticker}"></td>
-              <td th:text="${portfolio.stock.investmentName}"></td>
+              <td th:text="${portfolio.stock.stockName}"></td>
               <td th:with="price = ${portfolio.stock.price}">
                 <span th:text="${#numbers.formatDecimal(price, 0, 'COMMA', 2, 'POINT')}"></span>
               </td>
