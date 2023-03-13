@@ -5,9 +5,11 @@ import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.perscholas.investmentapp.dao.UserRepoI;
 import org.perscholas.investmentapp.models.User;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -22,13 +24,13 @@ public class MyControllerAdvice {
         this.userRepoI = userRepoI;
     }
 
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler({Exception.class, AccessDeniedException.class})
     public RedirectView exceptionHandle(Exception ex){
 
-        log.debug("something happened");
+        log.debug("error happened");
         ex.printStackTrace();
         RedirectView redirectView = new RedirectView();
-        redirectView.setUrl("http://localhost:8080/index");
+        redirectView.setUrl("http://localhost:8080/error");
         return redirectView;
     }
 

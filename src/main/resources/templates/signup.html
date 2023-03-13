@@ -54,67 +54,44 @@
                 <div class="col-md-6">
                     <label for="fName" class="form-label">First name</label>
                     <input type="text" class="form-control" id="fName" th:field="*{firstName}" required>
-                    <!--
-                    <div class="invalid-feedback">
-                      Please enter a name between 2 and 30 characters long
-                    </div>
-                    -->
+
+                    <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="error text-warning text-danger"></span>
                 </div>
                 <div class="col-md-6">
                     <label for="lName" class="form-label">Last name</label>
                     <input type="text" class="form-control" id="lName" th:field="*{lastName}" required>
-                    <!--
-                    <div class="invalid-feedback">
-                      Please enter a name between 2 and 30 characters long
-                    </div>
-                    -->
+
+                    <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="error text-warning text-danger"></span>
                 </div>
                 <div class="col-md-8">
                     <label for="newEmail" class="form-label">Email</label>
                     <input type="email" class="form-control" id="newEmail" th:field="*{email}" required>
-                    <!--
 
-                    -->
+                    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error text-warning text-danger"></span>
                 </div>
-                <!--
 
-                -->
                 <div class="col-md-6">
                     <label for="streetAddress" class="form-label">Street Address</label>
                     <input type="text" class="form-control" id="streetAddress" name="street" required>
-                    <!--
-                    <div class="invalid-feedback">
-                      A valid zip number must contain 5 digits
-                    </div>
-                    -->
+                    
                 </div>
 
                 <div class="col-md-3">
                     <label for="stateAddress" class="form-label">State</label>
                     <input type="text" class="form-control" id="stateAddress" name="state" required>
-                    <!--
-                    <div class="invalid-feedback">
-                      A valid zip number must contain 5 digits
-                    </div>
-                    -->
+
                 </div>
 
                 <div class="col-md-3">
                     <label for="zipcode" class="form-label">Zipcode</label>
-                    <input type="text" class="form-control" id="zipcode" name="zip" required>
-                    <!--
-                    <div class="invalid-feedback">
-                      A valid zip number must contain 5 digits
-                    </div>
-                    -->
+                    <input type="text" class="form-control" id="zipcode" name="zip" maxlength="5" required>
+
                 </div>
 
                 <div class="col-md-6">
                     <label for="createPassword" class="form-label">Password</label>
                     <input type="password" class="form-control" id="createPassword" min="8" pattern="(?=^.{8,}$)(?=.*\d)(?=.*[!@#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" th:field="*{password}" required>
-                    <!--
-                    <div class="invalid-feedback pass-feedback">Your password must be at least 8 characters including a lowercase letter, an uppercase letter, a special character and a number</div>
-                    -->
+
                 </div>
 
                 <div class="col-md-6">

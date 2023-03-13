@@ -2,6 +2,7 @@ package org.perscholas.investmentapp.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.perscholas.investmentapp.dao.*;
 import org.perscholas.investmentapp.dto.StockDTO;
@@ -11,8 +12,10 @@ import org.perscholas.investmentapp.services.PossessionServices;
 import org.perscholas.investmentapp.services.StockServices;
 import org.perscholas.investmentapp.services.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.bind.validation.ValidationErrors;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -55,9 +58,6 @@ public class HomeController {
     @GetMapping("/index")
     public String homePage(Model model){
         log.info("I am in the index controller method");
-        log.warn("first call " + String.valueOf(model.getAttribute("msg")));
-        model.addAttribute("msg", "Hello World IndexPage");
-        log.warn("second call " + String.valueOf(model.getAttribute("msg")));
 
         return "index";
     }
@@ -103,38 +103,6 @@ public class HomeController {
         return "login";
     }
 
-    // verifies if email and password exist within database, if so login
-//    @PostMapping("/login/process")
-//    public String loginProcess(@ModelAttribute("user") User user) {
-//        Optional<User> confirmUser = userRepoI.findByEmailAndPassword(user.getEmail(), user.getPassword());
-//
-//        if (confirmUser == null) {
-//            log.warn("/login: user" + confirmUser.get().getEmail() + "has successfully logged in");
-//
-//            return "/login: user login was not successful, user was null";
-//        } else {
-//            log.warn("/login: user" + confirmUser.get().getEmail() + "has successfully logged in");
-//            return "redirect:/user/dashboard";
-//        }
-//    }
-
-//    @PostMapping("/login/processing")
-//    public String loginProcess(@ModelAttribute("user") User user,
-//                               Model model, HttpServletRequest request, HttpSession http) {
-//        Principal p = request.getUserPrincipal();
-//        User loggedUser = null;
-//        if(p != null) {
-//            loggedUser =  userRepoI.findByEmail(p.getName()).get();
-//            http.setAttribute("currentUser", loggedUser);
-//            log.warn("MyControllerAdvice: session attr theStudent in advice controller  " + http.getAttribute("currentUser").toString());
-//            return "redirect:/user/dashboard";
-//        }
-//        model.addAttribute("currentUser", user);
-//        log.warn("MyControllerAdvice: principal was null");
-//        return "/login: user login was not successful, user was null";
-//
-//    }
-
     @GetMapping("/signup")
     public String userForm(Model model) {
         model.addAttribute("user", new User());
@@ -144,11 +112,18 @@ public class HomeController {
     }
 
     @PostMapping("/signup")
-    public String userProcess(@ModelAttribute("user") User user,
+    public String userProcess(@Valid @ModelAttribute("user") User user,
+                              BindingResult bindingResult,
                               @RequestParam("street") String street,
                               @RequestParam("state") String state,
                               @RequestParam("zip") int zip) {
         // this works, but won't login new user
+
+        if (bindingResult.hasErrors()) {
+            log.debug(bindingResult.getAllErrors().toString());
+            return "signup";
+        }
+
         user = userServices.createOrUpdateRunning(user);
         user = userServices.addOrUpdateAddress(new Address(street, state, zip), user);
         AuthGroup newAuth = new AuthGroup(user.getEmail(), "ROLE_USER");
@@ -158,6 +133,16 @@ public class HomeController {
         log.warn("/signup: user successfully signed up");
         log.warn(user.toString());
         return "redirect:/login";
+    }
+
+    @GetMapping("/403")
+    public String userExceptionHandlePage(){
+        return "403";
+    }
+
+    @GetMapping("/error")
+    public String exceptionHandlePage(){
+        return "error";
     }
 
     @GetMapping("/user/{id}")

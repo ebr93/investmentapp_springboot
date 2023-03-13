@@ -66,6 +66,26 @@ img {
   border-radius: 20px;
 }
 
+.image-error-one {
+  height: 450px;
+  width: 100%;
+  background: url(../imgs/adeposit-box.png);
+  background-repeat:no-repeat;
+  background-size: contain;
+  background-position: center;
+  position: relative;
+}
+
+.image-error-two {
+  height: 450px;
+  width: 100%;
+  background: url(../imgs/aonline-marketing.png);
+  background-repeat:no-repeat;
+  background-size: contain;
+  background-position: center;
+  position: relative;
+}
+
 .word {
   word-spacing: 2em;
 }
@@ -113,6 +133,26 @@ img {
     background-position: center;
     position: relative;
     border-radius: 20px;
+  }
+
+  .image-error-one {
+    height: 250px;
+    width: 100%;
+    background: url(../imgs/adeposit-box.png);
+    background-repeat:no-repeat;
+    background-size: contain;
+    background-position: center;
+    position: relative;
+  }
+
+  .image-error-two {
+    height: 250px;
+    width: 100%;
+    background: url(../imgs/aonline-marketing.png);
+    background-repeat:no-repeat;
+    background-size: contain;
+    background-position: center;
+    position: relative;
   }
 }
 

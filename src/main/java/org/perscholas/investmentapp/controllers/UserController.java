@@ -2,6 +2,7 @@ package org.perscholas.investmentapp.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.perscholas.investmentapp.dao.*;
 import org.perscholas.investmentapp.dto.StockDTO;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -204,10 +206,16 @@ class UserController {
 
     @PostMapping("/account/edit")
     public String editAccount(@ModelAttribute("currentUser") User user,
-                              @ModelAttribute("editUser") User editUser,
+                              @Valid @ModelAttribute("editUser") User editUser,
+                              BindingResult bindingResult,
                               HttpServletRequest request) throws Exception {
         Principal p = request.getUserPrincipal();
         log.warn("/user/account/edit: editUser is not null, info is " + editUser);
+
+        if (bindingResult.hasErrors()) {
+            log.debug(bindingResult.getAllErrors().toString());
+            return "useraccount";
+        }
 
         User principalUser = null;
         if (editUser != null && p != null) {
@@ -241,7 +249,13 @@ class UserController {
 
     @PostMapping("/account/edit_address")
     public String editAddress(@ModelAttribute("currentUser") User user,
-                              @ModelAttribute("editAddress") Address editAddress) throws Exception {
+                              @Valid @ModelAttribute("editAddress") Address editAddress,
+                              BindingResult bindingResult) throws Exception {
+        if (bindingResult.hasErrors()) {
+            log.debug(bindingResult.getAllErrors().toString());
+            return "useraccount";
+        }
+
         if (editAddress != null && user != null) {
             log.warn("/user/account/edit_address: editAddress is not null, info is " + editAddress + " id: " + editAddress.getId());
             userServices.addOrUpdateAddress(editAddress, user);

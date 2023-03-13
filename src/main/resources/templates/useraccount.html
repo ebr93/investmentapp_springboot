@@ -66,17 +66,11 @@
           </thead>
           <tbody>
             <tr th:each="user: ${currentUser}">
-              <th scope="row" th:text="${user.id}">1</th>
-              <td th:text="${user.firstName}">Mark</td>
-              <td th:text="${user.lastName}">Otto</td>
-              <td th:text="${user.email}">@mdo</td>
-              <td th:text="${user.address}">
-                <!-- <span th:text="{user.address}">
-                  <span th:text="${address.street}">,</span>
-                  <span th:text="${address.state}">,</span>
-                  <span th:text="${address.zipcode}"></span>
-                </span> -->
-              </td>
+              <th scope="row" th:text="${user.id}"></th>
+              <td th:text="${user.firstName}"></td>
+              <td th:text="${user.lastName}"></td>
+              <td th:text="${user.email}"></td>
+              <td th:text="${user.address}"></td>
             </tr>
           </tbody>
         </table>
@@ -90,31 +84,33 @@
     <h1 class="h3">Edit User</h1>
     <div class="col-12 col-md-10">
       <!-- Form, this form allows to add new users -->
-      <form method="post" th:action="@{/user/account/edit}" 
-      class="row g-3 needs-validation signup-validation">
+      <form method="post" 
+        th:action="@{/user/account/edit}" 
+        th:object="${editUser}" class="row g-3 needs-validation signup-validation">
         <div class="col-md-6">
           <label for="fName" class="form-label">First name</label>
           <input type="text" class="form-control" id="fName" 
           th:field="*{firstName}" 
-          th:object="${editUser}"
           required>
 
+          <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="error text-warning text-danger"></span>
         </div>
         <div class="col-md-6">
           <label for="lName" class="form-label">Last name</label>
           <input type="text" class="form-control" id="lName" 
           th:field="*{lastName}" 
-          th:object="${editUser}"
           required>
 
+          <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="error text-warning text-danger"></span>
         </div>
 
         <div class="col-md-6">
           <label for="newEmail" class="form-label">Email</label>
           <input type="email" class="form-control" id="newEmail" 
           th:field="*{email}" 
-          th:object="${editUser}"
           required>
+
+          <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error text-warning text-danger"></span>
         </div>
 
         <div class="col-12">
@@ -144,36 +140,36 @@
   <h1 class="h3">Edit Address</h1>
   <div class="col-12 col-md-10">
     <form action="" class="row g-3 needs-validation signup-validation"
-      method="post" th:action="@{/user/account/edit_address}">
+      method="post" th:action="@{/user/account/edit_address}" th:object="${editAddress}">
       <div class="col-md-6">
         <label for="streetAddress" class="form-label">Street Address</label>
         <input type="text" class="form-control" id="streetAddress" name="street" 
         th:field="*{street}" 
-        th:object="${editAddress}"
         required>
         
+        <span th:if="${#fields.hasErrors('street')}" th:errors="*{street}" class="error text-warning text-danger"></span>
       </div>
 
       <div class="col-12 col-md-3">
         <label for="stateAddress" class="form-label">State</label>
         <input type="text" class="form-control" id="stateAddress" name="state" 
         th:field="*{state}" 
-        th:object="${editAddress}"
         required>
-        
+
+        <span th:if="${#fields.hasErrors('state')}" th:errors="*{state}" class="error text-warning text-danger"></span>
       </div>
 
       <div class="col-12 col-md-3">
         <label for="zipcode" class="form-label">Zipcode</label>
         <input type="text" class="form-control" id="zipcode" name="zip" max="5" 
         th:field="*{zipcode}" 
-        th:object="${editAddress}"
         required>
 
+        <span th:if="${#fields.hasErrors('zipcode')}" th:errors="*{zipcode}" class="error text-warning text-danger"></span>
       </div>
 
       <div class="col-12">
-        <a th:href="@{/user/account}"><button class="btn btn-primary" id="signupBttn" type="submit">Update</button></a>
+        <button class="btn btn-primary" id="signupBttn" type="submit">Update</button>
       </div>
 
     </form>

@@ -1,6 +1,10 @@
 package org.perscholas.investmentapp.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -25,13 +29,26 @@ public class User {
     @Column(name = "id")
     Integer id;
 
-    @Column(name = "first_name", length = 45)
+
+    @Column(name = "first_name", length = 30)
+    @NotBlank(message = "Please provide a first name.")
+    @Pattern(regexp = "^[a-zA-Z]{2,30}$", message = "Please provide a first name of " +
+            "length 2 to " +
+            "30")
+
     String firstName;
 
-    @Column(name = "last_name", length = 45)
+    @Column(name = "last_name", length = 30)
+    @Pattern(regexp = "^[a-zA-Z]{2,30}$", message = "Please provide a first name of " +
+            "length 2 to " +
+            "30")
+    @NotBlank(message = "Please provide a last name.")
+
     String lastName;
 
-    @Column(name = "email", length = 45)
+    @Column(name = "email")
+    @NotBlank(message = "Please provide an email")
+    @Email(message = "Provide a valid email address", regexp = ".+@.+\\..+")
     String email;
 
     @Column(name = "password", length = 100)
