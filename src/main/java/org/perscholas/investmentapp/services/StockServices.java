@@ -68,4 +68,10 @@ public class StockServices {
                 .map((stock) -> new StockDTO(stock.getStockName(), stock.getTicker(), stock.getPrice(), stock.getDescription()))
                 .collect(Collectors.toList());
     }
+
+    public List<Stock> allRegularStocks() {
+        return stockRepoI.findAll()
+                .stream()
+                .collect(Collectors.toList());
+    }
 }

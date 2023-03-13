@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -137,7 +138,9 @@ public class AdminController {
         if (stockOptional.isPresent()) {
             Stock originalStock = stockOptional.get();
             originalStock.setStockName(stockName);
-            originalStock.setPrice(Double.valueOf(price));
+
+            originalStock.setPrice(BigDecimal.valueOf(Double.valueOf(price)));
+
             originalStock.setDescription(description);
 
             stockRepoI.save(originalStock);

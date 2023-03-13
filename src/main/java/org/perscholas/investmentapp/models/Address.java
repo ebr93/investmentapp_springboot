@@ -9,6 +9,8 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Objects;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @RequiredArgsConstructor
@@ -40,5 +42,18 @@ public class Address {
     @Override
     public String toString() {
         return String.format("%s, %s, %s", street, state, zipcode);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Address address = (Address) o;
+        return zipcode == address.zipcode && street.equals(address.street) && state.equals(address.state);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(street, state, zipcode);
     }
 }

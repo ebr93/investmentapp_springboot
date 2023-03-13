@@ -1,10 +1,13 @@
 package org.perscholas.investmentapp.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Digits;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -34,7 +37,10 @@ public class Stock {
 
     @NonNull
     @Column(name = "price")
-    Double price;
+    @DecimalMin(value = "0.01",
+            message = "Value for stock must be greater than 0")
+    @Digits(integer=10, fraction=2)
+    BigDecimal price;
 
     @NonNull
     @Column(name = "description", length = 100)

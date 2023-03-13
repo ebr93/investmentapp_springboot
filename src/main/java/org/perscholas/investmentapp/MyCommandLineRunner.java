@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+
 
 @Component
 @Slf4j
@@ -110,31 +112,64 @@ public class MyCommandLineRunner implements CommandLineRunner {
 
 
 
-        Stock investment1 = new Stock("Apple Inc.", "AAPL", 128.28, "Technology company.");
-        Stock investment2 = new Stock("Microsoft Corporation", "MSFT", 240.18, "Technology company.");
-        Stock investment3 = new Stock("Amazon.com, Inc.", "AMZN", 3127.47, "Technology and retail company.");
-        Stock investment4 = new Stock("Alphabet Inc.", "GOOGL", 2075.95, "Technology company.");
-        Stock investment5 = new Stock("Facebook, Inc.", "FB", 264.28, "Social media and technology company.");
-        Stock investment6 = new Stock("Tesla, Inc.", "TSLA", 789.30, "Electric vehicle and clean energy company.");
-        Stock investment7 = new Stock("Johnson & Johnson", "JNJ", 165.89, "Pharmaceutical and consumer goods company.");
-        Stock investment8 = new Stock("JPMorgan Chase & Co.", "JPM", 152.14, "Investment banking and financial services.");
-        Stock investment9 = new Stock("Exxon Mobil Corporation", "XOM", 56.23, "Oil and gas company.");
-        Stock investment10 = new Stock("Berkshire Hathaway Inc.", "BRK.A", 408548.00, "Conglomerate holding company.");
-        Stock investment11 = new Stock("Visa Inc.", "V", 206.72, "Financial services company.");
-        Stock investment12 = new Stock("Walmart Inc.", "WMT", 138.61, "Retail corporation.");
-        Stock investment13 = new Stock("Johnson Controls International plc", "JCI", 65.88, "Diversified technology and industrial company.");
-        Stock investment14 = new Stock("McDonald's Corporation", "MCD", 209.64, "Fast food restaurant chain.");
-        Stock investment15 = new Stock("The Goldman Sachs Group, Inc.", "GS", 348.15, "Investment banking and financial services.");
-        Stock investment16 = new Stock("Intel Corporation", "INTC", 63.62, "Technology company.");
-        Stock investment17 = new Stock("Cisco Systems, Inc.", "CSCO", 45.95, "Networking and IT company.");
-        Stock investment18 = new Stock("Walt Disney Co.", "DIS", 185.27, "Entertainment and media company.");
-        Stock investment19 = new Stock("Pfizer Inc.", "PFE", 35.77, "Pharmaceuticals company.");
-        Stock investment20 = new Stock("Coca-Cola Consolidated, Inc.", "COKE", 345.38, "Soft drink bottling company.");
-        Stock investment21 = new Stock("Verizon Communications Inc.", "VZ", 56.60, "Telecommunications company.");
-        Stock investment22 = new Stock("UnitedHealth Group Incorporated", "UNH", 350.23, "Healthcare services and insurance company.");
-        Stock investment23 = new Stock("Procter & Gamble Co.", "PG", 129.84, "Consumer goods company.");
-        Stock investment24 = new Stock("The Home Depot, Inc.", "HD", 293.18, "Home improvement retailer.");
-        Stock investment25 = new Stock("General Electric Company", "GE", 12.52, "Multinational conglomerate.");
+        Stock investment1 = new Stock("Apple Inc.", "AAPL",
+                BigDecimal.valueOf(128.28),
+                "Technology company.");
+        Stock investment2 = new Stock("Microsoft Corporation", "MSFT",
+                BigDecimal.valueOf(240.18), "Technology company.");
+        Stock investment3 = new Stock("Amazon.com, Inc.", "AMZN",
+                BigDecimal.valueOf(3127.47), "Technology and retail company.");
+        Stock investment4 = new Stock("Alphabet Inc.", "GOOGL",
+                BigDecimal.valueOf(2075.95), "Technology company.");
+        Stock investment5 = new Stock("Facebook, Inc.", "FB",
+                BigDecimal.valueOf(264.28), "Social media and technology " +
+                "company.");
+        Stock investment6 = new Stock("Tesla, Inc.", "TSLA",
+                BigDecimal.valueOf(789.30), "Electric vehicle and clean " +
+                "energy company.");
+        Stock investment7 = new Stock("Johnson & Johnson", "JNJ",
+                BigDecimal.valueOf(165.89), "Pharmaceutical and consumer " +
+                "goods company.");
+        Stock investment8 = new Stock("JPMorgan Chase & Co.", "JPM",
+                BigDecimal.valueOf(152.14), "Investment banking and financial" +
+                " services.");
+        Stock investment9 = new Stock("Exxon Mobil Corporation", "XOM",
+                BigDecimal.valueOf(56.23), "Oil and gas company.");
+        Stock investment10 = new Stock("Berkshire Hathaway Inc.", "BRK.A",
+                BigDecimal.valueOf(408548.00), "Conglomerate holding company.");
+        Stock investment11 = new Stock("Visa Inc.", "V",
+                BigDecimal.valueOf(206.72), "Financial services company.");
+        Stock investment12 = new Stock("Walmart Inc.", "WMT",
+                BigDecimal.valueOf(138.61), "Retail corporation.");
+        Stock investment13 = new Stock("Johnson Controls International plc",
+                "JCI", BigDecimal.valueOf(65.88), "Diversified technology and" +
+                " industrial company.");
+        Stock investment14 = new Stock("McDonald's Corporation", "MCD",
+                BigDecimal.valueOf(209.64), "Fast food restaurant chain.");
+        Stock investment15 = new Stock("The Goldman Sachs Group, Inc.", "GS",
+                BigDecimal.valueOf(348.15), "Investment banking and financial" +
+                " services.");
+        Stock investment16 = new Stock("Intel Corporation", "INTC",
+                BigDecimal.valueOf(63.62), "Technology company.");
+        Stock investment17 = new Stock("Cisco Systems, Inc.", "CSCO",
+                BigDecimal.valueOf(45.95), "Networking and IT company.");
+        Stock investment18 = new Stock("Walt Disney Co.", "DIS",
+                BigDecimal.valueOf(185.27), "Entertainment and media company.");
+        Stock investment19 = new Stock("Pfizer Inc.", "PFE",
+                BigDecimal.valueOf(35.77), "Pharmaceuticals company.");
+        Stock investment20 = new Stock("Coca-Cola Consolidated, Inc.", "COKE"
+                , BigDecimal.valueOf(345.38), "Soft drink bottling company.");
+        Stock investment21 = new Stock("Verizon Communications Inc.", "VZ",
+                BigDecimal.valueOf(56.60), "Telecommunications company.");
+        Stock investment22 = new Stock("UnitedHealth Group Incorporated",
+                "UNH", BigDecimal.valueOf(350.23), "Healthcare services and " +
+                "insurance company.");
+        Stock investment23 = new Stock("Procter & Gamble Co.", "PG",
+                BigDecimal.valueOf(129.84), "Consumer goods company.");
+        Stock investment24 = new Stock("The Home Depot, Inc.", "HD",
+                BigDecimal.valueOf(293.18), "Home improvement retailer.");
+        Stock investment25 = new Stock("General Electric Company", "GE",
+                BigDecimal.valueOf(12.52), "Multinational conglomerate.");
         stockRepoI.saveAndFlush(investment1);
         stockRepoI.saveAndFlush(investment2);
         stockRepoI.saveAndFlush(investment3);

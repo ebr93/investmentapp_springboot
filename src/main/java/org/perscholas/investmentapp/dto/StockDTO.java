@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
+
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @NoArgsConstructor
@@ -13,6 +15,6 @@ import lombok.experimental.FieldDefaults;
 public class StockDTO {
     String stockName;
     String ticker;
-    Double price;
+    BigDecimal price;
     String description;
 }

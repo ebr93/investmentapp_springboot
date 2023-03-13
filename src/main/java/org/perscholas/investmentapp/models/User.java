@@ -72,6 +72,15 @@ public class User {
         this.password = new BCryptPasswordEncoder(4).encode(password);
     }
 
+    public User(int id, @NonNull String firstName, @NonNull String lastName,
+                @NonNull String email, @NonNull String password) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = new BCryptPasswordEncoder(4).encode(password);
+    }
+
     public void setPassword(String password) {
 
         this.password = new BCryptPasswordEncoder(4).encode(password);
