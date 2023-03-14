@@ -156,26 +156,31 @@ class InvestmentappApplicationTests {
 		return expectedStocks;
 	}
 
+	// test user
 	@Test @Order(1)
 	void testUserEmail() throws Exception {
 		assertThat(userRepoI.findByEmail(testUser1.getEmail()).get().getEmail()).isEqualTo(testUser1.getEmail());
 	}
 
+	// test user
 	@Test @Order(2)
 	void testUserFirstName() throws Exception {
 		assertThat(userRepoI.findByEmail(testUser1.getEmail()).get().getFirstName()).isEqualTo(testUser1.getFirstName());
 	}
 
+	// test user
 	@Test @Order(3)
 	void testUserLastName() throws Exception {
 		assertThat(userRepoI.findByEmail(testUser1.getEmail()).get().getLastName()).isEqualTo(testUser1.getLastName());
 	}
 
+	// test Address
 	@Test @Order(4)
 	void testUserAddress() throws Exception {
 		assertThat(userRepoI.findByEmail(testUser1.getEmail()).get().getAddress()).isEqualTo(testAddress1);
 	}
 
+	// test stocks
 	@Test @Order(5)
 	void testAllStocks() throws Exception {
 		assertThat(stockServices.allRegularStocks()).isEqualTo(expectedStocks());
