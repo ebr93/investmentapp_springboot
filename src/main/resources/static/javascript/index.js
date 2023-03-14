@@ -2,6 +2,65 @@
 //import orderAPI from './marketAPIFetch.js';
 //import intList from './investmentsArray';
 
+const options = {
+  method: 'GET',
+  headers: {
+    'X-RapidAPI-Key': '66d7085b62msh288087059e8ae40p1c5d91jsnb5aa211a244e',
+    'X-RapidAPI-Host': 'apidojo-yahoo-finance-v1.p.rapidapi.com'
+  }
+};
+
+async function getData(container) {
+  try {
+    const response = await fetch('https://apidojo-yahoo-finance-v1.p.rapidapi.com/news/list?category=generalnews&region=US', options);
+    const responseData = await response.json();
+
+    console.log(responseData);
+    console.log(responseData.items);
+    console.log(responseData.items.result);
+    console.log(responseData.items.result[0]);
+    console.log(responseData.items.result[0].content);
+
+    
+    for (i = 0; i < 10; i++) {
+      const newDiv = document.createElement('div');
+
+      const newLink = document.createElement('a');
+      const linkString = responseData.items.result[i].link;
+      newLink.setAttribute('href', linkString);
+
+      newLink.appendChild(newDiv);
+
+      // "h-25", "d-inline-block", 
+      newDiv.classList.add("p-3", "mb-3","bg-light", "border", "rounded-3", "text-bg-light", "overflow-auto");
+
+      const newTitle = document.createElement('h1');
+      newTitle.innerText = responseData.items.result[i].title;
+      newTitle.classList.add("h5");
+      newDiv.appendChild(newTitle);
+
+      const newImage = document.createElement('img');
+      newImage.classList.add("img-thumbnail");
+      newImage.src = responseData.items.result[i].main_image.original_url;
+      newDiv.appendChild(newImage);
+
+
+      const newParagraph = document.createElement('p');
+      newParagraph.innerText = responseData.items.result[i].summary;
+      newDiv.appendChild(newParagraph);
+
+      // newDiv.innerHTML = responseData.items.result[i].content;
+      container.appendChild(newLink);
+    }
+
+    return responseData;
+
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+
 // Event Listeners for Dashboard
 const dashListeners = (() => {
   const dash = document.querySelector('#main-dashboard');
@@ -9,6 +68,7 @@ const dashListeners = (() => {
 
     const stockButtons = document.querySelectorAll('.stock-add-btn');
     const tradedStock = document.querySelector('#traded-stock');
+    const newsContainer = document.querySelector('#news-container');
 
     // stocksBttn.addEventListener('click', () => {
     //   orderAPI.getQuote().then(respone => {
@@ -25,7 +85,9 @@ const dashListeners = (() => {
         console.log(e.target.id);
         tradedStock.value = e.target.id;
       })
-    ) 
+    )
+
+    window.addEventListener('load', getData(newsContainer));
   }
 })()
 

@@ -25,7 +25,7 @@ This application currently has the following features:
 * Admin control
 
 ### Usage
-Visitors can create an User account to access the to create an invesmtent portfolio witht the provided stocks. The user can add or sell stocks to manage their investment, as well as edit them. User has access to edit their account information. As an adming you have access to all the users' information and can modify stock data to edit, add or delete.
+Visitors can create a user account to access the to create an invesmtent portfolio witht the provided stocks. The user can add or sell stocks to manage their investment, as well as edit them. User has access to edit their account information. As an adming you have access to all the users' information and can modify stock data to edit, add or delete.
 
 ### Testing
 Testing is done through JUnit to assert classes, entities and values. These test go over User, Address, and Stock entities.

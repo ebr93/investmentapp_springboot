@@ -2,6 +2,10 @@
 @import url("custom_reset.css");
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@700&display=swap');
 
+
+
+
+
 /** Style **/
 html {
   font-size: calc(10px + 0.4vw);
@@ -104,6 +108,10 @@ img {
 
 #logo {
   font-family: 'Nanum Gothic', sans-serif;
+}
+
+#news-container {
+  height: 1000px;
 }
 
 .input-modifier {
