@@ -27,11 +27,6 @@ public class MySecurityConfig {
     @Autowired
     AppUserDetailService appUserDetailsService;
 
-//    @Bean
-//    public void configure(AuthenticationManagerBuilder auth) throws Exception {
-//         auth.authenticationProvider(authenticationProvider());
-//    }
-
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
@@ -78,18 +73,6 @@ public class MySecurityConfig {
 
         return http.build();
     }
-
-//    @Bean
-//    public UserDetailsManager users(DataSource dataSource) {
-//        UserDetails user = User.withDefaultPasswordEncoder()
-//                .username("user")
-//                .password("password")
-//                .roles("USER")
-//                .build();
-//        JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);
-//        users.createUser(user);
-//        return users;
-//    }
 
 
 

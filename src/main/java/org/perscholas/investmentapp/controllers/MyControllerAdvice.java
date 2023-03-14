@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.perscholas.investmentapp.dao.UserRepoI;
 import org.perscholas.investmentapp.models.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -20,6 +21,7 @@ import java.security.Principal;
 public class MyControllerAdvice {
     private final UserRepoI userRepoI;
 
+    @Autowired
     public MyControllerAdvice(UserRepoI userRepoI) {
         this.userRepoI = userRepoI;
     }
@@ -33,18 +35,6 @@ public class MyControllerAdvice {
         redirectView.setUrl("http://localhost:8080/error");
         return redirectView;
     }
-
-    // Session Attribute Original kind of worked
-    // used for User logged in
-//    @ModelAttribute
-//    public void currentUser(Model model) {
-//        model.addAttribute("currentUser", new User());
-//    }
-
-//    @ModelAttribute
-//    public User currentUser(Model model) {
-//        return new User();
-//    }
 
     @ModelAttribute
     public void loggedInUser(Model model, HttpServletRequest request, HttpSession http){
@@ -60,11 +50,4 @@ public class MyControllerAdvice {
             log.warn("MyControllerAdvice: principal was null");
         }
     }
-
-
-    // Session Attribute
-//    @ModelAttribute
-//    public void initModel(Model model) {
-//        model.addAttribute("msg", "used for SessionAttribute");
-//    }
 }

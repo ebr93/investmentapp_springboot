@@ -1,7 +1,5 @@
 package org.perscholas.investmentapp.controllers;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.perscholas.investmentapp.dao.*;
@@ -12,7 +10,6 @@ import org.perscholas.investmentapp.services.PossessionServices;
 import org.perscholas.investmentapp.services.StockServices;
 import org.perscholas.investmentapp.services.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.bind.validation.ValidationErrors;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,22 +17,22 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;
-import java.util.Optional;
+
 
 @Controller
 @Slf4j
 @SessionAttributes("currentUser")
 public class HomeController {
-    AddressRepoI addressRepoI;
+    private final AddressRepoI addressRepoI;
     private final UserRepoI userRepoI;
     private final StockRepoI stockRepoI;
-    PossessionRepoI possessionRepoI;
+    private final PossessionRepoI possessionRepoI;
 
-    PossessionServices possessionServices;
+    private final PossessionServices possessionServices;
     private final UserServices userServices;
     private final StockServices stockServices;
-    AuthGroupRepoI authGroupRepoI;
-    AppUserDetailService appUserDetailService;
+    private final AuthGroupRepoI authGroupRepoI;
+    private final AppUserDetailService appUserDetailService;
 
     @Autowired
     public HomeController(UserRepoI userRepoI, StockRepoI stockRepoI, PossessionRepoI possessionRepoI,

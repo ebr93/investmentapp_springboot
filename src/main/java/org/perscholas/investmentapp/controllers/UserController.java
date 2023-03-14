@@ -7,12 +7,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.perscholas.investmentapp.dao.*;
 import org.perscholas.investmentapp.dto.StockDTO;
 import org.perscholas.investmentapp.models.*;
-import org.perscholas.investmentapp.security.AppUserPrincipal;
+
 import org.perscholas.investmentapp.services.PossessionServices;
 import org.perscholas.investmentapp.services.StockServices;
 import org.perscholas.investmentapp.services.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,13 +20,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
+
 
 @Controller
 @Slf4j
 @SessionAttributes(value = {"currentUser"})
 @RequestMapping("/user")
-// @SessionAttributes(value = {"msg"})
+
 class UserController {
     private final AuthGroupRepoI authGroupRepoI;
     private final AddressRepoI addressRepoI;
@@ -53,33 +53,6 @@ class UserController {
         this.possessionServices = possessionServices;
         this.authGroupRepoI = authGroupRepoI;
     }
-
-
-//    @GetMapping("/dashboard")
-//    public String getUserWithID(@ModelAttribute("currentUser") User user,
-//                                    Model model) throws Exception {
-//        log.warn(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
-//
-//        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        AppUserPrincipal authorizedUser = (AppUserPrincipal)principal;
-//        if (authorizedUser.getUsername() != null) {
-//            User currentUser = userRepoI.findByEmailAllIgnoreCase(authorizedUser.getUsername()).get();
-//
-//            model.addAttribute("currentUser", currentUser);
-//            log.warn("/user/dashboard: User logged is " + String.valueOf(currentUser.getEmail()));
-//
-//            List<StockDTO> allStocks = stockServices.allStocks();
-//            model.addAttribute("allStocks", allStocks);
-//
-//            List<Possession> userPortfolio = userServices.retrievePortfolio(currentUser.getEmail());
-//            model.addAttribute("userPortfolio", userPortfolio);
-//
-//            allStocks.forEach((s) -> System.out.println(s));
-//        } else {
-//            throw new Exception("/user/dashboard: Principal was not an instance of AppUserPrincipal");
-//        }
-//        return "userdashboard";
-//    }
 
     @GetMapping("/dashboard")
     public String getUserWithID(@ModelAttribute("currentUser") User user,
@@ -113,8 +86,6 @@ class UserController {
         Stock stock = stockRepoI.findByTicker(ticker).get();
         Possession possession = new Possession(shares, user, stock);
 
-        // OG
-//        possessionServices.createOrUpdate(possession, user, stock);
         possessionServices.createOrUpdate(possession);
         log.warn("user/dashboard/addstock: stock has been added to user " + user.getEmail());
 
@@ -128,20 +99,16 @@ class UserController {
         log.warn("the attr of session theStudent in model is " + http.getAttribute("currentUser"));
 
         if (user != null) {
-
-//            List<StockDTO> allStocks = stockServices.allStocks();
-//            model.addAttribute("allStocks", allStocks);
-
             List<Possession> userPortfolio = userServices.retrievePortfolio(user.getEmail());
             model.addAttribute("userPortfolio", userPortfolio);
 
-            //allStocks.forEach((s) -> System.out.println(s));
         } else {
             throw new Exception("/user/portfolio : Principal was not an instance of AppUserPrincipal");
         }
         return "userportfolio";
     }
 
+    // form is done on modal
     @PostMapping("/portfolio/edit")
     public String editPossession(@ModelAttribute("currentUser") User user,
                                  @RequestParam("ticker") String ticker,
@@ -185,11 +152,8 @@ class UserController {
     @GetMapping("/account")
     public String account(@ModelAttribute("currentUser") User user,
                             Model model) throws Exception {
-//        Optional<User> editUser = userRepoI.findByEmail(user.getEmail());
-//        if (user != null && dbUser.isPresent()) {
         if (user != null) {
             log.warn("/user/account: CurrentUser is not null, email is " + user.getEmail());
-//            model.addAttribute("editUser", new User());
             User editUser = new User();
             editUser.setFirstName(user.getFirstName());
             editUser.setLastName(user.getLastName());
@@ -219,14 +183,12 @@ class UserController {
 
         User principalUser = null;
         if (editUser != null && p != null) {
-//        if (editUser != null) {
+
             principalUser = userRepoI.findByEmail(p.getName()).get();
             log.warn("/user/account/edit: CurrentUser(principal) is not null, email is " + principalUser.getEmail());
-//            editUser.setEmail(user.getEmail());
+
             log.warn("/user/account/edit: editUser is not null, info is " + editUser);
             List<AuthGroup> authGroupList = authGroupRepoI.findByEmail(principalUser.getEmail());
-
-            //authGroupRepoI.findByEmail(user.getEmail()).get(0).setEmail(editUser.getEmail());
 
             AuthGroup userAuth = authGroupList.get(0);
             userAuth.setEmail(editUser.getEmail());

@@ -33,39 +33,6 @@ class InvestmentappApplicationTests {
 			"Hello1234!");
 	static Address testAddress1 = new Address(1, "123 Main St", "CA", 12345);
 
-	static List<User> expectedUsers() {
-		User user1 = new User(1, "Edward", "Barcenas", "email@email.com",
-				"Hello1234!");
-		User user2 = new User(2, "Jane", "Doe", "janedoe@example.com",
-				"Hello1234!");
-		User user3 = new User(3,"Bob", "Smith", "bobsmith@example.com",
-				"Hello1234!");
-		User user4 = new User(4, "Alice", "Johnson", "alicejohnson@example.com"
-				, "Hello1234!");
-		User user5 = new User(5,"Sam", "Brown", "sambrown@example.com",
-				"Hello1234!");
-
-		Address address1 = new Address("123 Main St", "CA", 12345);
-		Address address2 = new Address("456 Elm St", "NY", 10001);
-		Address address3 = new Address("789 Oak St", "TX", 75001);
-		Address address4 = new Address("987 Pine St", "FL", 33428);
-		Address address5 = new Address("654 Cedar Ave", "IL", 60601);
-		user1.setAddress(address1);
-		user2.setAddress(address2);
-		user3.setAddress(address3);
-		user4.setAddress(address4);
-		user5.setAddress(address5);
-
-		List<User> expected = new ArrayList<>();
-		expected.add(user1);
-		expected.add(user2);
-		expected.add(user3);
-		expected.add(user4);
-		expected.add(user5);
-
-		return expected;
-	}
-
 	static List<Stock> expectedStocks() {
 		Stock investment1 = new Stock("Apple Inc.", "AAPL",
 				BigDecimal.valueOf(128.28),
