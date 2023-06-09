@@ -1,5 +1,5 @@
 # Portfolio App with Spring Boot
-This repository contains a Portoflio App built with Spring Boot. This application provides a GUI developed through JS, CSS, and Bootstrap that facilitates user interaction. This project makes use of Spring Data and Security for user's business logic, helping to keep track data vy each unique user.
+This repository contains a Portfolio App built with Spring Boot. This application provides a GUI developed through JS, CSS, and Bootstrap that facilitates user interaction. This project makes use of Spring Data and Security for user's business logic, helping to keep track data vy each unique user.
 
 ### MyPortfolio Website & Code Video
 
